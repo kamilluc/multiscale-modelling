@@ -1,19 +1,26 @@
 package multiscale.logic;
 
+import javafx.scene.paint.Color;
+
 public class Cell {
-   private int state;
+   private Color state;
    private int phase;
 
-    public Cell(int state, int phase) {
+    public Cell(Color state, int phase) {
         this.state = state;
         this.phase = phase;
     }
 
-    public int getState() {
+    public Cell() {
+        this.state = Color.WHITE;
+        this.phase = 0;
+    }
+
+    public Color getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Color state) {
         this.state = state;
     }
 

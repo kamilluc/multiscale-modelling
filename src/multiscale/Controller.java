@@ -6,12 +6,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
+import multiscale.logic.CellularAutomata;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     private int width,height;
+    CellularAutomata ca;
+
     @FXML
     private TextField widthField;
 
@@ -36,7 +40,19 @@ public class Controller implements Initializable {
         height=Integer.parseInt(heightField.getText());
         canvas=new Canvas(width,height);
         graphicsContext.clearRect(0, 0, width, height);
+        ca=new CellularAutomata(width,height);
+//        graphicsContext.fillRect(5,5,10,10);
+    }
 
-        graphicsContext.fillRect(5,5,10,10);
+    public void onButtonSteep(ActionEvent e){
+
+//        ca.nextSteep();
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                graphicsContext.setFill(ca.cells[i+1][j+1].getState());
+                graphicsContext.fillRect(i,j,1,1);
+            }
+        }
+
     }
 }

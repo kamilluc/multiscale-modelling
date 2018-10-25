@@ -1,12 +1,14 @@
 package multiscale.logic;
 
-import java.util.Random;
+import javafx.scene.paint.Color;
+
+import java.util.*;
 
 public class CellularAutomata {
 //    private Board board,boardOld;
 private int width;
     private int height;
-    private Cell[][] cells, cellsOld;
+    public Cell[][] cells, cellsOld;
 
     public void initBoard() {
 
@@ -14,7 +16,7 @@ private int width;
         cells=new Cell[width][height];
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
-                cells[i][j]=new Cell(0,0);
+                cells[i][j]=new Cell();
             }
         }
     }
@@ -28,33 +30,51 @@ private int width;
         this.width=width+2;
         this.height=height+2;
         initBoard();
-        seedFirstGeneration();
+        seedGrains(4);
+
     }
 
     private void vonNeumann(int x, int y){
-        if(cells[x][y].getState()!=0){
-            if(cells[x+1][y].getState()==0)
-                cells[x+1][y].setState(cells[x][y].getState());
-            if(cells[x-1][y].getState()==0)
-                cells[x-1][y].setState(cells[x][y].getState());
-            if(cells[x][y+1].getState()==0)
-                cells[x][y+1].setState(cells[x][y].getState());
-            if(cells[x][y-1].getState()==0)
-                cells[x][y-1].setState(cells[x][y].getState());
+        if(cells[x][y].getState()== Color.WHITE){
+            List<Color> closeColors=new ArrayList<>();
+
+            if(cells[x+1][y].getState()!=Color.WHITE || cells[x+1][y].getState()!=Color.BLACK )
+                closeColors.add(cells[x+1][y].getState());
+
+            if(cells[x-1][y].getState()!=Color.WHITE || cells[x-1][y].getState()!=Color.BLACK )
+                closeColors.add(cells[x-1][y].getState());
+
+            if(cells[x][y+1].getState()!=Color.WHITE || cells[x][y+1].getState()!=Color.BLACK )
+                closeColors.add(cells[x][y+1].getState());
+
+            if(cells[x][y-1].getState()!=Color.WHITE || cells[x][y-1].getState()!=Color.BLACK )
+                closeColors.add(cells[x][y-1].getState());
+
+            Map<Color,Integer> map = new HashMap<>();
+            for(int i=0;i<closeColors.size();i++){
+                Integer count = map.get(closeColors.get(i));
+                map.put(closeColors.get(i), count==null?1:count+1);
+            }
+            System.out.println();
         }
     }
 
-    private void seedFirstGeneration(){
-        int seeds=4;
+    private void seedGrains(int numberOfSeeds){
         Random rng = new Random();
 
-        for(int i=0;i<4;i++){
+        for(int i=0;i<numberOfSeeds;i++){
             int x=rng.nextInt((width-1)-1);
             int y=rng.nextInt((height-1)-1);
-            int state=rng.nextInt(seeds+1);
-            cells[x][y].setState(state);
+            Color newState;
+//            do {
+                 newState = Color.rgb(rng.nextInt(255),rng.nextInt(255),rng.nextInt(255));
+//            }
+//            while (newState!=Color.WHITE && newState!=Color.BLACK);
+            cells[x][y].setState(newState);
+
         }
     }
+
     public void nextSteep(){
         for(int i=1;i<width-1;i++){
             for(int j=1;j<height-1;j++){

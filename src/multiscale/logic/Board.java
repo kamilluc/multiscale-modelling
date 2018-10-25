@@ -1,6 +1,6 @@
 package multiscale.logic;
 
-import java.util.List;
+import javafx.scene.paint.Color;
 
 public class Board {
     private int width;
@@ -14,7 +14,7 @@ public class Board {
         cells=new Cell[width][height];
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
-                cells[i][j]=new Cell(0,0);
+                cells[i][j]=new Cell(Color.WHITE,0);
             }
         }
     }
