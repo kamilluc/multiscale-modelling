@@ -50,7 +50,7 @@ public class Controller implements Initializable {
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 graphicsContext.setFill(ca.cells[i+1][j+1].getState());
-                graphicsContext.fillRect(i,j,1,1);
+                graphicsContext.fillRect(i,j,5,5);
             }
         }
 

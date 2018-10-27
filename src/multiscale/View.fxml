@@ -11,12 +11,12 @@
 <GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="multiscale.Controller">
    <children>
       <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="25.0" text="Next Steep" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-      <TextField fx:id="widthField" prefHeight="25.0" prefWidth="46.0" GridPane.columnIndex="3" />
-      <TextField fx:id="heightField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+      <TextField fx:id="widthField" prefHeight="25.0" prefWidth="46.0" text="40" GridPane.columnIndex="3" />
+      <TextField fx:id="heightField" text="40" GridPane.columnIndex="3" GridPane.rowIndex="1" />
       <Label text="Width:" GridPane.columnIndex="1" />
       <Label text="Height:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <Canvas fx:id="canvas" height="200.0" width="200.0" GridPane.rowSpan="3" />
-      <Button mnemonicParsing="false" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" onAction="#onButtonSteep" />
+      <Button mnemonicParsing="false" onAction="#onButtonSteep" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
    </children>
    <columnConstraints>
       <ColumnConstraints />

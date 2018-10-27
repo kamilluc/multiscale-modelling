@@ -50,11 +50,11 @@ private int width;
             if(cells[x][y-1].getState()!=Color.WHITE || cells[x][y-1].getState()!=Color.BLACK )
                 closeColors.add(cells[x][y-1].getState());
 
-            Map<Color,Integer> map = new HashMap<>();
-            for(int i=0;i<closeColors.size();i++){
-                Integer count = map.get(closeColors.get(i));
-                map.put(closeColors.get(i), count==null?1:count+1);
-            }
+//            Map<Color,Integer> map = new HashMap<>();
+//            for(int i=0;i<closeColors.size();i++){
+//                Integer count = map.get(closeColors.get(i));
+//                map.put(closeColors.get(i), count==null?1:count+1);
+//            }
             System.out.println();
         }
     }
@@ -67,7 +67,7 @@ private int width;
             int y=rng.nextInt((height-1)-1);
             Color newState;
 //            do {
-                 newState = Color.rgb(rng.nextInt(255),rng.nextInt(255),rng.nextInt(255));
+                 newState = Color.rgb(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256));
 //            }
 //            while (newState!=Color.WHITE && newState!=Color.BLACK);
             cells[x][y].setState(newState);
