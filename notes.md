@@ -1,3 +1,6 @@
-todo:
+### TODO
+
 gui
+
 liczenie sasiadow
+

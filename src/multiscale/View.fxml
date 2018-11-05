@@ -1,22 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="multiscale.Controller">
+<GridPane alignment="center" hgap="5.0" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="multiscale.Controller">
    <children>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="25.0" text="Next Steep" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-      <TextField fx:id="widthField" prefHeight="25.0" prefWidth="46.0" text="300" GridPane.columnIndex="3" />
-      <TextField fx:id="heightField" text="300" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-      <Label text="Width:" GridPane.columnIndex="1" />
-      <Label text="Height:" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Canvas fx:id="canvas" height="200.0" width="200.0" GridPane.rowSpan="3" />
-      <Button mnemonicParsing="false" onAction="#onButtonSteep" text="Button" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onButtonClicked" prefHeight="25.0" text="Set" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="13" />
+      <TextField fx:id="widthField" prefHeight="25.0" prefWidth="46.0" text="300" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+      <TextField fx:id="heightField" text="300" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+      <Label text="Width:" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+      <Label text="Height:" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+      <Canvas fx:id="canvas" height="300.0" width="300.0" GridPane.rowIndex="10" GridPane.rowSpan="3">
+         <GridPane.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </GridPane.margin></Canvas>
+      <Button mnemonicParsing="false" onAction="#onButtonSteep" text="Run" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+      <Label text="Seeds:" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+      <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10" GridPane.rowSpan="2147483647" />
+      <TextField fx:id="seedsField" text="10" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+      <MenuBar GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+        <menus>
+          <Menu mnemonicParsing="false" text="Export">
+            <items>
+              <MenuItem fx:id="menuExportTxt" onAction="#exportToTxt" mnemonicParsing="false" text="TXT" />
+                  <MenuItem fx:id="menuExportBmp" onAction="#exportToBitmap" mnemonicParsing="false" text="BMP" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Import">
+            <items>
+              <MenuItem fx:id="menuImportTxt" onAction="#importFromTxt" mnemonicParsing="false" text="TXT" />
+                  <MenuItem fx:id="menuImportBmp" onAction="#importFromBitmap" mnemonicParsing="false" text="BMP" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
    <columnConstraints>
       <ColumnConstraints />
@@ -24,8 +51,21 @@
       <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />

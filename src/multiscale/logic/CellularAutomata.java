@@ -33,7 +33,7 @@ private int width;
         this.width=width+2;
         this.height=height+2;
         initBoard();
-        seedGrains(4);
+//        seedGrains(4);
 
     }
 
@@ -70,7 +70,7 @@ private int width;
         }
     }
 
-    private void seedGrains(int numberOfSeeds){
+    public void seedGrains(int numberOfSeeds){
         Random rng = new Random();
 
         for(int i=0;i<numberOfSeeds;i++){
@@ -99,12 +99,12 @@ private int width;
         boolean status=true;
         for(int i=1;i<width-1;i++){
             for(int j=1;j<height-1;j++){
-                if(cells[i][j].getState()==Color.WHITE) {
+                if(cells[i][j].getState().equals(Color.WHITE)) {
                     status = false;
-                    break;
                 }
                 if(!status) break;
             }
+            if(!status) break;
         }
         return status;
     }

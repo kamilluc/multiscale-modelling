@@ -1,19 +1,35 @@
 package multiscale;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextField;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import multiscale.logic.CellularAutomata;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
-    private int width,height;
+    private int width,height,seeds;
     CellularAutomata ca;
 
     @FXML
@@ -21,6 +37,9 @@ public class Controller implements Initializable {
 
     @FXML
     private TextField heightField;
+
+    @FXML
+    private TextField seedsField;
 
     @FXML
     private Canvas canvas;
@@ -33,30 +52,121 @@ public class Controller implements Initializable {
     }
 
     public void onButtonClicked(ActionEvent e){
-        System.out.println("button clicked " +widthField.getText()+" "+Integer.parseInt(heightField.getText()));
+//        System.out.println("button clicked " +widthField.getText()+" "+Integer.parseInt(heightField.getText()));
         widthField.setDisable(true);
         heightField.setDisable(true);
+        seedsField.setDisable(true);
         width=Integer.parseInt(widthField.getText());
         height=Integer.parseInt(heightField.getText());
+        seeds=Integer.parseInt(seedsField.getText());
         canvas=new Canvas(width,height);
         graphicsContext.clearRect(0, 0, width, height);
         ca=new CellularAutomata(width,height);
-//        graphicsContext.fillRect(5,5,10,10);
+        ca.seedGrains(seeds);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
+                graphicsContext.fillRect(i, j, 1, 1);
+            }
+        }
     }
-
+    private void unlockInterface(){
+    widthField.setDisable(false);
+    heightField.setDisable(false);
+    seedsField.setDisable(false);
+}
     public void onButtonSteep(ActionEvent e) {
         //todo: non blocking ui
         //fixme: bigger size doesnt work
+        //int iter=0;
+
+        System.out.println("Computing");
         while (!ca.isBoardFull())
         {
+
             ca.nextSteep();
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
-                    graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
-                    graphicsContext.fillRect(i, j, 1, 1);
+
+            //iter++;
+            //System.out.println(iter);
+        }
+        System.out.println("Drawing");
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
+                graphicsContext.fillRect(i, j, 1, 1);
+            }
+        }
+        System.out.println("Done");
+        unlockInterface();
+    }
+
+    @FXML
+    public void exportToBitmap() throws Exception {
+
+//        WritableImage exportedImage = new WritableImage(width, height);
+//        canvas.snapshot(null, exportedImage);
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export to bitmap");
+        fileChooser.setInitialDirectory(new File("microstructures/"));
+        fileChooser.setInitialFileName("grains.bmp");
+
+        File file = fileChooser.showSaveDialog(new Stage());
+
+
+
+        WritableImage wim = new WritableImage(height, width);
+        graphicsContext.getCanvas().snapshot(null, wim);
+        try {
+            ImageIO.write(SwingFXUtils.fromFXImage(wim, null), "png", file);
+        } catch (Exception s) {
+        }
+
+    }
+
+    @FXML
+    public void importFromBitmap() throws Exception {
+
+    }
+
+    @FXML
+    public void exportToTxt() throws Exception {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Export to text file");
+        chooser.setInitialDirectory(new File("microstructures/"));
+        chooser.setInitialFileName("grains.txt");
+
+        File file = chooser.showSaveDialog(new Stage());
+
+        if (file != null) {
+
+
+            List<String> data = new ArrayList<>();
+data.add(String.valueOf(width)+"\n");
+            data.add(String.valueOf(height)+"\n");
+            for(int i=0;i<height;i++){
+                for(int j=0;j<width;j++){
+                    data.add(ca.cells[i][j].getState()+"\n"+ca.cells[i][j].getPhase()+"\n");
                 }
             }
 
+            FileWriter writer = new FileWriter(file);
+
+
+
+            for (String item : data) {
+                writer.write(item);
+
+            }
+
+            writer.close();
         }
     }
-}
+
+    @FXML
+    public void importFromTxt() throws Exception {
+
+    }
+    }
+
+
