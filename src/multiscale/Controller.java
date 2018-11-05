@@ -44,15 +44,19 @@ public class Controller implements Initializable {
 //        graphicsContext.fillRect(5,5,10,10);
     }
 
-    public void onButtonSteep(ActionEvent e){
-
-//        ca.nextSteep();
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                graphicsContext.setFill(ca.cells[i+1][j+1].getState());
-                graphicsContext.fillRect(i,j,5,5);
+    public void onButtonSteep(ActionEvent e) {
+        //todo: non blocking ui
+        //fixme: bigger size doesnt work
+        while (!ca.isBoardFull())
+        {
+            ca.nextSteep();
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
+                    graphicsContext.fillRect(i, j, 1, 1);
+                }
             }
-        }
 
+        }
     }
 }
