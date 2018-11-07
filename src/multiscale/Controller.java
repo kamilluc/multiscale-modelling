@@ -26,6 +26,7 @@ import java.net.URL;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -166,6 +167,35 @@ data.add(String.valueOf(width)+"\n");
     @FXML
     public void importFromTxt() throws Exception {
 
+    }
+
+
+    @FXML
+    public void addInclusion(){
+        //todo: dynamic z gui -- 2 typy i po 2 rodzaje na granicy i andom -- na granicy moga byc dodane tylko na koncu obliczen, random lepiej na poczatku
+        //todo it should be in logic
+
+        String inclusionType="Square";
+        int inclusionNumber=6;
+        double inclusionSize=12.;
+
+        if(inclusionType.equalsIgnoreCase("squarerandom")){
+            int a= (int) Math.floor(inclusionSize/Math.sqrt(2));
+            Random rng=new Random();
+            int x=rng.nextInt((width-1))+1;
+            int y=rng.nextInt((height-1))+1;
+            //todo: check zakres
+            for(int i=0;i<a;i++){
+                for(int j=0;j<a;j++){
+                    if(x+i>width-1 || y+j>height-1 || x+i==0 || y+j==0)
+                        continue;
+                    ca.cells[x+i][y+j].setState(Color.BLACK);
+                }
+            }
+        }
+        else if(inclusionType.equalsIgnoreCase("circlerandom")){
+
+        }
     }
     }
 

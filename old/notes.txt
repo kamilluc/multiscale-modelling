@@ -1,0 +1,19 @@
+odleglosc miedzy pkt wzor http://matematyka.pisz.pl/strona/1248.html
+        inclusion po wzroscie ziaren tylko na granicy ziaren
+
+
+kola:
+public static void drawCircle(Graphics g, int x, int y, int radius) {
+
+        int diameter = radius * 2;
+
+        //shift x and y by the radius of the circle in order to correctly center it
+        g.fillOval(x - radius, y - radius, diameter, diameter);
+
+        }
+
+
+
+        notatki do  zaawansowanego rozrsotu:
+        w gui checkbox czy algoryt prosty cz extended
+            jesli extended to w gui text box z wartoscia 1-100 z prawdopodobienstwem do kroku 4
