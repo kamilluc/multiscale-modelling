@@ -1,12 +1,16 @@
 package multiscale;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
@@ -32,6 +36,10 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     private int width,height,seeds;
     CellularAutomata ca;
+    ObservableList list= FXCollections.observableArrayList();
+
+    @FXML
+    private ChoiceBox<String> series;
 
     @FXML
     private TextField widthField;
@@ -43,6 +51,12 @@ public class Controller implements Initializable {
     private TextField seedsField;
 
     @FXML
+    private TextField numOfInclusions;
+
+    @FXML
+    private TextField sizeOfInclusions;
+
+    @FXML
     private Canvas canvas;
 
     private GraphicsContext graphicsContext;
@@ -50,6 +64,14 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         graphicsContext = canvas.getGraphicsContext2D();
+        loadData();
+    }
+
+    private void loadData(){
+        list.removeAll(list);
+//        String a="Disable";
+        list.addAll("Disable", "Square Random", "Square Boundaries", "Circle Random", "Circle Boundaries");
+        series.getItems().addAll(list);
     }
 
     public void onButtonClicked(ActionEvent e){
@@ -80,8 +102,10 @@ public class Controller implements Initializable {
         //todo: non blocking ui
         //fixme: bigger size doesnt work
         //int iter=0;
-
+        System.out.println("Adding Inclusions");
+        addInclusion();
         System.out.println("Computing");
+
         while (!ca.isBoardFull())
         {
 
@@ -115,7 +139,6 @@ public class Controller implements Initializable {
         File file = fileChooser.showSaveDialog(new Stage());
 
 
-
         WritableImage wim = new WritableImage(height, width);
         graphicsContext.getCanvas().snapshot(null, wim);
         try {
@@ -127,6 +150,30 @@ public class Controller implements Initializable {
 
     @FXML
     public void importFromBitmap() throws Exception {
+            //todo: copy this
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import from bitmap");
+        fileChooser.setInitialDirectory(new File("microstructures/"));
+//        fileChooser.setInitialFileName("grains.bmp");
+
+        File file = fileChooser.showSaveDialog(new Stage());
+
+        BufferedImage img = null;
+
+        try {
+            img=ImageIO.read(file);
+        } catch (Exception s) {
+        }
+
+//        Image img0 = new Image(file);
+//        Image image=new Image(file.getCanonicalPath());
+        Image image = SwingFXUtils.toFXImage(img, null);
+
+        graphicsContext.getCanvas().getGraphicsContext2D().drawImage(image,0,0);
+//        graphicsContext.getCanvas().getGraphicsContext2D().drawImage(img.,0,0);
+
+//        graphicsContext.getCanvas().getGraphicsContext2D().setFill(Color.ORANGE);
+//               graphicsContext.getCanvas().getGraphicsContext2D().fillRect(0,0,300,300);
 
     }
 
@@ -166,36 +213,47 @@ data.add(String.valueOf(width)+"\n");
 
     @FXML
     public void importFromTxt() throws Exception {
-
+        System.out.println(series.getValue());
     }
 
+    private void redrawCells(){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
+                graphicsContext.fillRect(i, j, 1, 1);
+            }
+        }
+    }
 
     @FXML
-    public void addInclusion(){
+    private void addInclusion(){
         //todo: dynamic z gui -- 2 typy i po 2 rodzaje na granicy i andom -- na granicy moga byc dodane tylko na koncu obliczen, random lepiej na poczatku
         //todo it should be in logic
 
-        String inclusionType="Square";
-        int inclusionNumber=6;
-        double inclusionSize=12.;
+//        String inclusionType="Square";
+//        int inclusionNumber=6;
+//        double inclusionSize=12.;
+//
+//        if(inclusionType.equalsIgnoreCase("squarerandom")){
+//            int a= (int) Math.floor(inclusionSize/Math.sqrt(2));
+//            Random rng=new Random();
+//            int x=rng.nextInt((width-1))+1;
+//            int y=rng.nextInt((height-1))+1;
+//            //todo: check zakres
+//            for(int i=0;i<a;i++){
+//                for(int j=0;j<a;j++){
+//                    if(x+i>width-1 || y+j>height-1 || x+i==0 || y+j==0)
+//                        continue;
+//                    ca.cells[x+i][y+j].setState(Color.BLACK);
+//                }
+//            }
+//        }
+//        else if(inclusionType.equalsIgnoreCase("circlerandom")){
+//
+//        }
 
-        if(inclusionType.equalsIgnoreCase("squarerandom")){
-            int a= (int) Math.floor(inclusionSize/Math.sqrt(2));
-            Random rng=new Random();
-            int x=rng.nextInt((width-1))+1;
-            int y=rng.nextInt((height-1))+1;
-            //todo: check zakres
-            for(int i=0;i<a;i++){
-                for(int j=0;j<a;j++){
-                    if(x+i>width-1 || y+j>height-1 || x+i==0 || y+j==0)
-                        continue;
-                    ca.cells[x+i][y+j].setState(Color.BLACK);
-                }
-            }
-        }
-        else if(inclusionType.equalsIgnoreCase("circlerandom")){
-
-        }
+        ca.addInclusions(series.getValue(), Integer.parseInt(numOfInclusions.getText()), Integer.parseInt(sizeOfInclusions.getText()));
+        redrawCells();
     }
     }
 

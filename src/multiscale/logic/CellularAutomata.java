@@ -41,21 +41,45 @@ private int width;
         if(cellsOld[x][y].getState().equals(Color.WHITE)){
             List<Color> closeColors=new ArrayList<>();
 
-            if(!cellsOld[x+1][y].getState().equals(Color.WHITE) || !cellsOld[x+1][y].getState().equals(Color.BLACK) )
+            if(!cellsOld[x+1][y].getState().equals(Color.WHITE) && !cellsOld[x+1][y].getState().equals(Color.BLACK) )
                 closeColors.add(cellsOld[x+1][y].getState());
 
-            if(!cellsOld[x-1][y].getState().equals(Color.WHITE) || !cellsOld[x-1][y].getState().equals(Color.BLACK) )
+            if(!cellsOld[x-1][y].getState().equals(Color.WHITE) && !cellsOld[x-1][y].getState().equals(Color.BLACK) )
                 closeColors.add(cellsOld[x-1][y].getState());
 
-            if(!cellsOld[x][y+1].getState().equals(Color.WHITE) || !cellsOld[x][y+1].getState().equals(Color.BLACK))
+            if(!cellsOld[x][y+1].getState().equals(Color.WHITE) && !cellsOld[x][y+1].getState().equals(Color.BLACK))
                 closeColors.add(cellsOld[x][y+1].getState());
 
-            if(!cellsOld[x][y-1].getState().equals(Color.WHITE) || !cellsOld[x][y-1].getState().equals(Color.BLACK))
+            if(!cellsOld[x][y-1].getState().equals(Color.WHITE) && !cellsOld[x][y-1].getState().equals(Color.BLACK))
                 closeColors.add(cellsOld[x][y-1].getState());
 
             if(!closeColors.isEmpty()){
 
                 //TODO: add frequency
+
+
+                //code from sandbox for frequency
+//                List<Color> colors=new ArrayList<>();
+//                colors.add(Color.RED);
+//                colors.add(Color.RED);
+//                colors.add(Color.WHITE);
+//                colors.add(Color.BLUE);
+//
+//                Map<Color, Integer> map=new HashMap<>();
+//                //todo: remove list, use hashmap
+//                for(Color color: colors){
+//                    if(!map.containsKey(color))
+//                        map.put(color,1);
+//                    else
+//                        map.put(color, map.get(color)+1);
+//                }
+//
+//                System.out.println(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
+
+
+                //end code
+
+
                 Random rng=new Random();
                 int rnd=rng.nextInt(closeColors.size());
                 cells[x][y].setState(closeColors.get(rnd));
@@ -121,6 +145,39 @@ private int width;
                 cellsOld[i][j].setState(cells[i][j].getState());
             }
         }
+    }
+
+    public void addInclusions(String type, int number, double size){
+
+        System.out.println(type+" "+number+" "+size);
+        for(int e=0;e<number;e++) {
+            //todo: fix if inclusioon already exist in same place
+            if (type.equalsIgnoreCase("circle random")) {
+                double r=size/2.0;
+                Random rng=new Random();
+                int x=rng.nextInt(width-1)+1;
+                int y=rng.nextInt(height-1)+1;
+                for(int i=0;i<width;i++){
+                    for(int j=0;j<height;j++){
+                        if(((i-x)*(i-x)+(j-y)*(j-y))<=(r*r))
+                            cells[i][j].setState(Color.BLACK);
+                    }
+                }
+            } else if (type.equalsIgnoreCase("circle boundaries")) {
+
+            } else if (type.equalsIgnoreCase("square random")) {
+
+            } else if (type.equalsIgnoreCase("square boundaries")) {
+
+            }
+        }
+
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cellsOld[i][j].setState(cells[i][j].getState());
+            }
+        }
+        System.out.println("inclusions added");
     }
 
 }

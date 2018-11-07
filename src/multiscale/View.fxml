@@ -45,12 +45,12 @@
           </Menu>
         </menus>
       </MenuBar>
-      <ChoiceBox prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+      <ChoiceBox fx:id="series" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="13" />
       <Label text="Inclusions" GridPane.columnIndex="2" GridPane.rowIndex="13" />
       <Label text="Number of Inclusions" GridPane.columnIndex="2" GridPane.rowIndex="14" />
       <Label text="Size of Inclusion" GridPane.columnIndex="2" GridPane.rowIndex="15" />
-      <TextField text="5" GridPane.columnIndex="3" GridPane.rowIndex="14" />
-      <TextField text="12" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+      <TextField fx:id="numOfInclusions" text="5" GridPane.columnIndex="3" GridPane.rowIndex="14" />
+      <TextField fx:id="sizeOfInclusions" text="12" GridPane.columnIndex="3" GridPane.rowIndex="15" />
    </children>
    <columnConstraints>
       <ColumnConstraints />
