@@ -37,10 +37,12 @@ public class Controller implements Initializable {
     private int width,height,seeds;
     CellularAutomata ca;
     ObservableList list= FXCollections.observableArrayList();
+    ObservableList structureList= FXCollections.observableArrayList();
 
     @FXML
     private ChoiceBox<String> series;
-
+    @FXML
+    private ChoiceBox<String> structureSeries;
     @FXML
     private TextField widthField;
 
@@ -72,6 +74,9 @@ public class Controller implements Initializable {
 //        String a="Disable";
         list.addAll("Disable", "Square Random", "Square Boundaries", "Circle Random", "Circle Boundaries");
         series.getItems().addAll(list);
+
+        structureList.addAll("Substructure", "Dual-Phase");
+        structureSeries.getItems().addAll(structureList);
     }
 
     public void onButtonClicked(ActionEvent e){
@@ -102,8 +107,7 @@ public class Controller implements Initializable {
         //todo: non blocking ui
         //fixme: bigger size doesnt work
         //int iter=0;
-        System.out.println("Adding Inclusions");
-        addInclusion();
+
         System.out.println("Computing");
 
         while (!ca.isBoardFull())
@@ -122,6 +126,8 @@ public class Controller implements Initializable {
             }
         }
         System.out.println("Done");
+        System.out.println("Adding Inclusions");
+        addInclusion();
         unlockInterface();
     }
 

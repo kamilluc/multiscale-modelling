@@ -17,3 +17,16 @@ public static void drawCircle(Graphics g, int x, int y, int radius) {
         notatki do  zaawansowanego rozrsotu:
         w gui checkbox czy algoryt prosty cz extended
             jesli extended to w gui text box z wartoscia 1-100 z prawdopodobienstwem do kroku 4
+
+
+lab 5
+
+wyswietlic steep posredni miedzy import/generowanie -> wybor ziaren -> pokazac tylko te wybrane -> generowac w pustych miejscach reszte struktury
+
+
+gui ocenianie
+
+wrap all settings in new grid
+
+
+pytnaie? jak wczytuje z bitmapy do struktury

@@ -96,7 +96,7 @@ private int width;
 
     public void seedGrains(int numberOfSeeds){
         Random rng = new Random();
-
+//todo: check if randomized position is empty if not random once more
         for(int i=0;i<numberOfSeeds;i++){
             int x=rng.nextInt((width-1))+1;
             int y=rng.nextInt((height-1))+1;
@@ -149,34 +149,106 @@ private int width;
 
     public void addInclusions(String type, int number, double size){
 
-        System.out.println(type+" "+number+" "+size);
-        for(int e=0;e<number;e++) {
-            //todo: fix if inclusioon already exist in same place
-            if (type.equalsIgnoreCase("circle random")) {
-                double r=size/2.0;
-                Random rng=new Random();
-                int x=rng.nextInt(width-1)+1;
-                int y=rng.nextInt(height-1)+1;
-                for(int i=0;i<width;i++){
-                    for(int j=0;j<height;j++){
-                        if(((i-x)*(i-x)+(j-y)*(j-y))<=(r*r))
-                            cells[i][j].setState(Color.BLACK);
+        //System.out.println(type+" "+number+" "+size);
+        List<Integer> axesX=new ArrayList<>();
+        List<Integer> axesY=new ArrayList<>();
+
+        if(type.contains("Random")) {
+            do {
+                Random rng = new Random();
+                int x = rng.nextInt(width - 1) + 1;
+                int y = rng.nextInt(height - 1) + 1;
+                if (!cells[x][y].getState().equals(Color.BLACK)){
+                    axesX.add(x);
+                    axesY.add(y);
+                }
+            }
+            while (axesX.size() != number);
+        }
+
+        else {
+            do {
+                Random rng = new Random();
+                int x = rng.nextInt(width - 1) + 1;
+                int y = rng.nextInt(height - 1) + 1;
+                boolean inBoundary=false;
+                Color color=cells[x][y].getState();
+                for(int i=-1;i<=1;i++) {
+                    for (int j = -1; j <= 1; j++) {
+                        if(x+i>0 && x+i<width-1 && y+j>0 && y+j<height-1) {
+                            if (cells[x + i][y + j].getState() != color)
+                                inBoundary = true;
+                        }
                     }
                 }
-            } else if (type.equalsIgnoreCase("circle boundaries")) {
+                if (!cells[x][y].getState().equals(Color.BLACK) && inBoundary) {
+                    axesX.add(x);
+                    axesY.add(y);
+                }
+            }
+            while (axesX.size() != number);
+        }
 
-            } else if (type.equalsIgnoreCase("square random")) {
 
-            } else if (type.equalsIgnoreCase("square boundaries")) {
+        if(type.contains("Circle")){
+                           double r=size/2.0;
 
+            for(int e=0;e<number;e++) {
+                for (int i = 0; i < width; i++) {
+                    for (int j = 0; j < height; j++) {
+                        if (((i - axesX.get(0)) * (i - axesX.get(0)) + (j - axesY.get(0)) * (j - axesY.get(0))) <= (r * r)){
+                            if( i>0 && i<width-1 &&j >0 &&  j <height-1)
+                                cells[i][j].setState(Color.BLACK);
+
+                        }
+                    }
+                }
+                axesX.remove(0);
+                axesY.remove(0);
+            }
+        }
+        else if(type.contains("Square")){
+            int a=(int)((size/Math.sqrt(2.0))/2.0);
+//            System.out.println(a);
+            for(int e=0;e<number;e++) {
+                for(int i=-a;i<=a;i++) {
+                    for (int j = -a; j <= a; j++) {
+                        if(axesX.get(0) + i>0 && axesX.get(0) + i<width-1 && axesY.get(0) + j >0 && axesY.get(0) + j <height-1)
+                        cells[axesX.get(0) + i][axesY.get(0) + j].setState(Color.BLACK);
+                    }
+                }
+                axesX.remove(0);
+                axesY.remove(0);
             }
         }
 
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                cellsOld[i][j].setState(cells[i][j].getState());
-            }
-        }
+//        for(int e=0;e<number;e++) {
+            //todo: fix if inclusioon already exist in same place
+//            if (type.equalsIgnoreCase("circle random")) {
+//                double r=size/2.0;
+//                Random rng=new Random();
+//                int x=rng.nextInt(width-1)+1;
+//                int y=rng.nextInt(height-1)+1;
+//                for(int i=0;i<width;i++){
+//                    for(int j=0;j<height;j++){
+//                        if(((i-x)*(i-x)+(j-y)*(j-y))<=(r*r))
+//                            cells[i][j].setState(Color.BLACK);
+//                    }
+//                }
+//            } else if (type.equalsIgnoreCase("circle boundaries")) {
+//
+//            } else if (type.equalsIgnoreCase("square random")) {
+//
+//            } else if (type.equalsIgnoreCase("square boundaries")) {
+//
+//            }
+//        }
+//
+//        for(int i=0;i<width;i++){
+//            for(int j=0;j<height;j++){
+//                cellsOld[i][j].setState(cells[i][j].getState());
+//            }
+//        }
         System.out.println("inclusions added");
     }
 
