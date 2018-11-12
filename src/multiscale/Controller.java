@@ -77,7 +77,8 @@ public class Controller implements Initializable {
         loadData();
         selectedGrains=new ArrayList();
         selectedGrainsLabel.setText("Selected Grains: 0");
-
+series.setValue("Disable");
+        structureSeries.setValue("Disable");
     }
 
     private void loadData(){
@@ -387,6 +388,12 @@ index+=2;
         selectedGrains.clear();
         selectedGrainsLabel.setText("Selected Grains: "+selectedGrains.size());
 
+        redrawCells();
+    }
+
+    @FXML
+    private void onEntireClearClick(){
+        ca.clearSpace();
         redrawCells();
     }
     }

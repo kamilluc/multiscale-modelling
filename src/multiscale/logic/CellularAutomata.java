@@ -174,12 +174,14 @@ private int width;
         //System.out.println(type+" "+number+" "+size);
         List<Integer> axesX=new ArrayList<>();
         List<Integer> axesY=new ArrayList<>();
-
+        int size2=(int)(size/2.0);
         if(type.contains("Random")) {
             do {
                 Random rng = new Random();
-                int x = rng.nextInt(width - 1) + 1;
-                int y = rng.nextInt(height - 1) + 1;
+//                int x = rng.nextInt(width - 1+size2) + 1-size2;
+//                int y = rng.nextInt(height - 1+size2) + 1-size2;
+                int x = rng.nextInt((width-size2*2))+size2;
+                int y = rng.nextInt((height-size2*2))+size2;
                 if (!cells[x][y].getState().equals(Color.BLACK)){
 //                if (cells[x][y].getState().equals(Color.BLACK)){
 
@@ -292,6 +294,56 @@ private int width;
             for(int j=0;j<height;j++){
                 cellsOld[i][j].setState(cells[i][j].getState());
                 cellsOld[i][j].setPhase(cells[i][j].getPhase());
+            }
+        }
+    }
+
+    public void clearSpace() {
+        //setting phase
+        boolean boundary=false;
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
+                boundary=false;
+                if(!cellsOld[i][j].getState().equals(cellsOld[i][j+1].getState()))
+                    boundary=true;
+                else if(!cellsOld[i][j].getState().equals(cellsOld[i][j-1].getState()))
+                    boundary=true;
+                else if(!cellsOld[i][j].getState().equals(cellsOld[i+1][j-1].getState()))
+                    boundary=true;
+                else if(!cellsOld[i][j].getState().equals(cellsOld[i+1][j].getState()))
+                    boundary=true;
+                else if(!cellsOld[i][j].getState().equals(cellsOld[i+1][j+1].getState()))
+                    boundary=true;
+                else if(!cellsOld[i][j].getState().equals(cellsOld[i-1][j-1].getState()))
+                    boundary=true;
+                else if(!cellsOld[i][j].getState().equals(cellsOld[i-1][j].getState()))
+                    boundary=true;
+                else if(!cellsOld[i][j].getState().equals(cellsOld[i-1][j+1].getState()))
+                    boundary=true;
+                if(boundary)
+                    cells[i][j].setPhase(10);
+            }
+        }
+
+        //update
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cellsOld[i][j].setState(cells[i][j].getState());
+                cellsOld[i][j].setPhase(cells[i][j].getPhase());
+            }
+        }
+
+        //change colors
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                if(cellsOld[i][j].getPhase()!=10) {
+                    cellsOld[i][j].setState(Color.WHITE);
+                    cellsOld[i][j].setPhase(0);
+
+                }
+                else
+                    cellsOld[i][j].setState(Color.BLACK);
+//                cellsOld[i][j].setPhase(cells[i][j].getPhase());
             }
         }
     }

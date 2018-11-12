@@ -27,7 +27,7 @@
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
          </GridPane.margin></Canvas>
-      <Button mnemonicParsing="false" onAction="#onSteepClicked" text="Run" GridPane.columnIndex="2" GridPane.rowIndex="17" />
+      <Button id="runButton" mnemonicParsing="false" onAction="#onSteepClicked" text="Run" GridPane.columnIndex="2" GridPane.rowIndex="17" />
       <Label text="Number of Nucleations:" GridPane.columnIndex="2" GridPane.rowIndex="13" />
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.rowSpan="2147483647" />
       <TextField fx:id="seedsField" text="10" GridPane.columnIndex="3" GridPane.rowIndex="13" />
@@ -63,9 +63,11 @@
       <TextField fx:id="probablity4thRule" text="10" GridPane.columnIndex="3" GridPane.rowIndex="19" />
       <Label text="Structure:" GridPane.columnIndex="2" GridPane.rowIndex="20" />
       <ChoiceBox fx:id="structureSeries" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="20" />
-      <Button mnemonicParsing="false" onAction="#clearNonSelectedGrains" text="Remove non-selected Grains" GridPane.columnIndex="2" GridPane.rowIndex="21" />
-      <Label fx:id="selectedGrainsLabel" text="0" GridPane.columnIndex="3" GridPane.rowIndex="21" />
+      <Button mnemonicParsing="false" onAction="#clearNonSelectedGrains" text="Remove non-selected Grains" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="21" />
+      <Label fx:id="selectedGrainsLabel" text="0" GridPane.columnIndex="3" GridPane.rowIndex="22" />
       <Button fx:id="continueAfterRemove" mnemonicParsing="false" onAction="#continueAfterRemove" text="Continue" GridPane.columnIndex="2" GridPane.rowIndex="22" />
+      <Button mnemonicParsing="false" text="Clear Entire Space" onAction="#onEntireClearClick" GridPane.columnIndex="2" GridPane.rowIndex="23" />
+      <Button mnemonicParsing="false" text="Clear Selected Space" GridPane.columnIndex="3" GridPane.rowIndex="23" />
    </children>
    <columnConstraints>
       <ColumnConstraints />
@@ -77,6 +79,7 @@
       <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
