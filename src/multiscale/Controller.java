@@ -25,16 +25,13 @@ import multiscale.logic.CellularAutomata;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class Controller implements Initializable {
     private int width,height,seeds;
@@ -142,6 +139,8 @@ else {
             //iter++;
             //System.out.println(iter);
         }
+        System.out.println("Adding Inclusions");
+        addInclusion();
         System.out.println("Drawing");
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
@@ -150,8 +149,8 @@ else {
             }
         }
         System.out.println("Done");
-        System.out.println("Adding Inclusions");
-        addInclusion();
+
+
         unlockInterface();
     }
 
@@ -200,6 +199,18 @@ else {
         Image image = SwingFXUtils.toFXImage(img, null);
 
         graphicsContext.getCanvas().getGraphicsContext2D().drawImage(image,0,0);
+//
+//        WritableImage snap = graphicsContext.getCanvas().snapshot(null, null);
+//image.getPixelReader().getColor(i,j);
+        ca=new CellularAutomata(width,height);
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                ca.cellsOld[i+1][j+1].setState(image.getPixelReader().getColor(i,j));
+                ca.cells[i+1][j+1].setState(image.getPixelReader().getColor(i,j));
+
+            }
+        }
+        redrawCells();
 //        graphicsContext.getCanvas().getGraphicsContext2D().drawImage(img.,0,0);
 
 //        graphicsContext.getCanvas().getGraphicsContext2D().setFill(Color.ORANGE);
@@ -243,7 +254,67 @@ data.add(String.valueOf(width)+"\n");
 
     @FXML
     public void importFromTxt() throws Exception {
-        System.out.println(series.getValue());
+//        System.out.println(series.getValue());
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import from txt");
+        fileChooser.setInitialDirectory(new File("microstructures/"));
+//        fileChooser.setInitialFileName("grains.bmp");
+
+        File file = fileChooser.showSaveDialog(new Stage());
+
+//        BufferedImage img = null;
+
+
+
+//        Image img0 = new Image(file);
+//        Image image=new Image(file.getCanonicalPath());
+//        Image image = SwingFXUtils.toFXImage(img, null);
+
+//        graphicsContext.getCanvas().getGraphicsContext2D().drawImage(image,0,0);
+//
+//        WritableImage snap = graphicsContext.getCanvas().snapshot(null, null);
+//image.getPixelReader().getColor(i,j);
+
+        try {
+            List<String> lines = new ArrayList<>();
+            try
+            {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+
+                String st;
+                while ((st = br.readLine()) != null){
+                    lines.add(st);
+                }
+            }
+
+            catch (IOException e)
+            {
+
+                // do something
+                e.printStackTrace();
+            }
+
+            ca=new CellularAutomata(Integer.parseInt(lines.get(0)),Integer.parseInt(lines.get(1)));
+int index=0;
+            for(int i=0;i<Integer.parseInt(lines.get(0));i++){
+                for(int j=0;j<Integer.parseInt(lines.get(1));j++){
+
+index+=2;
+                    ca.cellsOld[i+1][j+1].setState(Color.valueOf( lines.get(index)));
+                    ca.cellsOld[i+1][j+1].setPhase(Integer.parseInt( lines.get(index+1)));
+                    ca.cells[i+1][j+1].setState(Color.valueOf( lines.get(index)));
+                    ca.cells[i+1][j+1].setPhase(Integer.parseInt( lines.get(index+1)));
+
+
+
+                }
+            }
+        } catch (Exception s) {
+        }
+
+
+
+        redrawCells();
     }
 
     private void redrawCells(){

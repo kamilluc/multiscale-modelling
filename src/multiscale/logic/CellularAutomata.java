@@ -69,25 +69,27 @@ private int width;
 //                colors.add(Color.WHITE);
 //                colors.add(Color.BLUE);
 //
-//                Map<Color, Integer> map=new HashMap<>();
+                Map<Color, Integer> map=new HashMap<>();
 //                //todo: remove list, use hashmap
-//                for(Color color: colors){
-//                    if(!map.containsKey(color))
-//                        map.put(color,1);
-//                    else
-//                        map.put(color, map.get(color)+1);
-//                }
+                for(Color color: closeColors){
+                    if(!map.containsKey(color))
+                        map.put(color,1);
+                    else
+                        map.put(color, map.get(color)+1);
+                }
 //
 //                System.out.println(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
 
 
                 //end code
+//
+//
+//                Random rng=new Random();
+//                int rnd=rng.nextInt(closeColors.size());
+//
+//                cells[x][y].setState(closeColors.get(rnd));
+                cells[x][y].setState(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
 
-
-                Random rng=new Random();
-                int rnd=rng.nextInt(closeColors.size());
-
-                cells[x][y].setState(closeColors.get(rnd));
             }
 
 //            Map<Color,Integer> map = new HashMap<>();
@@ -102,17 +104,30 @@ private int width;
     public void seedGrains(int numberOfSeeds){
         Random rng = new Random();
 //todo: check if randomized position is empty if not random once more
-        for(int i=0;i<numberOfSeeds;i++){
+//        for(int i=0;i<numberOfSeeds;i++){
+//            int x=rng.nextInt((width-1))+1;
+//            int y=rng.nextInt((height-1))+1;
+//            Color newState;
+//
+//            //TODO: add checking for double seeds in same position
+//                 newState = Color.rgb(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256));
+//
+//            cells[x][y].setState(newState);
+//
+//        }
+
+        int newSeeds=0;
+        List<Color> colors=new ArrayList<>();
+
+        while(newSeeds<numberOfSeeds) {
             int x=rng.nextInt((width-1))+1;
             int y=rng.nextInt((height-1))+1;
-            Color newState;
-//            do {
-            //TODO: add checking for double seeds in same position
-                 newState = Color.rgb(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256));
-//            }
-//            while (newState!=Color.WHITE && newState!=Color.BLACK);
-            cells[x][y].setState(newState);
-
+            Color newState= Color.rgb(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256));
+            if(!colors.contains(newState) && !cells[x][y].getState().equals(Color.BLACK)){
+                cells[x][y].setState(newState);
+                colors.add(newState);
+                newSeeds++;
+            }
         }
 
 
@@ -164,6 +179,8 @@ private int width;
                 int x = rng.nextInt(width - 1) + 1;
                 int y = rng.nextInt(height - 1) + 1;
                 if (!cells[x][y].getState().equals(Color.BLACK)){
+//                if (cells[x][y].getState().equals(Color.BLACK)){
+
                     axesX.add(x);
                     axesY.add(y);
                 }
