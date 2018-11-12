@@ -8,6 +8,8 @@ public class CellularAutomata {
 //    private Board board,boardOld;
 private int width;
     private int height;
+    public boolean extendedMoore;
+    public int probablity4thRule;
     public Cell[][] cells, cellsOld;
 
     public void initBoard() {
@@ -33,6 +35,8 @@ private int width;
         this.width=width+2;
         this.height=height+2;
         initBoard();
+        extendedMoore=false;
+        probablity4thRule=10;
 //        seedGrains(4);
 
     }
@@ -41,16 +45,16 @@ private int width;
         if(cellsOld[x][y].getState().equals(Color.WHITE)){
             List<Color> closeColors=new ArrayList<>();
 
-            if(!cellsOld[x+1][y].getState().equals(Color.WHITE) && !cellsOld[x+1][y].getState().equals(Color.BLACK) )
+            if(!cellsOld[x+1][y].getState().equals(Color.WHITE) && !cellsOld[x+1][y].getState().equals(Color.BLACK) && cellsOld[x+1][y].getPhase()!=2)
                 closeColors.add(cellsOld[x+1][y].getState());
 
-            if(!cellsOld[x-1][y].getState().equals(Color.WHITE) && !cellsOld[x-1][y].getState().equals(Color.BLACK) )
+            if(!cellsOld[x-1][y].getState().equals(Color.WHITE) && !cellsOld[x-1][y].getState().equals(Color.BLACK) && cellsOld[x-1][y].getPhase()!=2 )
                 closeColors.add(cellsOld[x-1][y].getState());
 
-            if(!cellsOld[x][y+1].getState().equals(Color.WHITE) && !cellsOld[x][y+1].getState().equals(Color.BLACK))
+            if(!cellsOld[x][y+1].getState().equals(Color.WHITE) && !cellsOld[x][y+1].getState().equals(Color.BLACK) && cellsOld[x][y+1].getPhase()!=2)
                 closeColors.add(cellsOld[x][y+1].getState());
 
-            if(!cellsOld[x][y-1].getState().equals(Color.WHITE) && !cellsOld[x][y-1].getState().equals(Color.BLACK))
+            if(!cellsOld[x][y-1].getState().equals(Color.WHITE) && !cellsOld[x][y-1].getState().equals(Color.BLACK) && cellsOld[x][y-1].getPhase()!=2)
                 closeColors.add(cellsOld[x][y-1].getState());
 
             if(!closeColors.isEmpty()){
@@ -82,6 +86,7 @@ private int width;
 
                 Random rng=new Random();
                 int rnd=rng.nextInt(closeColors.size());
+
                 cells[x][y].setState(closeColors.get(rnd));
             }
 
@@ -252,4 +257,23 @@ private int width;
         System.out.println("inclusions added");
     }
 
+
+    public void removeNonSelectedGrains(List<Color> selectedGrains){
+        for(int i=1;i<width-1;i++){
+            for(int j=1;j<height-1;j++){
+                if(!selectedGrains.contains(cellsOld[i][j].getState())){
+                    if(!cellsOld[i][j].getState().equals(Color.BLACK)){
+                        cells[i][j].setState(Color.WHITE);
+                    }}
+                    else
+                        cells[i][j].setPhase(2);
+            }
+        }
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cellsOld[i][j].setState(cells[i][j].getState());
+                cellsOld[i][j].setPhase(cells[i][j].getPhase());
+            }
+        }
+    }
 }

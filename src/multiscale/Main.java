@@ -14,7 +14,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("View.fxml"));
         primaryStage.setTitle("Multiscale Modeling - Kamil Łuc");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 800, 600));
+        primaryStage.setScene(new Scene(root, 600, 425));
         primaryStage.getIcons().add(new Image("file:icon.png"));
 
         primaryStage.show();

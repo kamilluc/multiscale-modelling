@@ -8,12 +8,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -38,7 +41,7 @@ public class Controller implements Initializable {
     CellularAutomata ca;
     ObservableList list= FXCollections.observableArrayList();
     ObservableList structureList= FXCollections.observableArrayList();
-
+    List<Color> selectedGrains;
     @FXML
     private ChoiceBox<String> series;
     @FXML
@@ -61,12 +64,23 @@ public class Controller implements Initializable {
     @FXML
     private Canvas canvas;
 
+    @FXML
+    private Label selectedGrainsLabel;
+
+    @FXML
+    private CheckBox extendedMethod;
+
+    @FXML
+    private TextField probablity4thRule;
     private GraphicsContext graphicsContext;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         graphicsContext = canvas.getGraphicsContext2D();
         loadData();
+        selectedGrains=new ArrayList();
+        selectedGrainsLabel.setText("Selected Grains: 0");
+
     }
 
     private void loadData(){
@@ -75,11 +89,11 @@ public class Controller implements Initializable {
         list.addAll("Disable", "Square Random", "Square Boundaries", "Circle Random", "Circle Boundaries");
         series.getItems().addAll(list);
 
-        structureList.addAll("Substructure", "Dual-Phase");
+        structureList.addAll("Disable", "Substructure", "Dual-Phase");
         structureSeries.getItems().addAll(structureList);
     }
 
-    public void onButtonClicked(ActionEvent e){
+    public void onSetClicked(ActionEvent e){
 //        System.out.println("button clicked " +widthField.getText()+" "+Integer.parseInt(heightField.getText()));
         widthField.setDisable(true);
         heightField.setDisable(true);
@@ -99,15 +113,25 @@ public class Controller implements Initializable {
         }
     }
     private void unlockInterface(){
+        //todo: add rest
     widthField.setDisable(false);
     heightField.setDisable(false);
     seedsField.setDisable(false);
 }
-    public void onButtonSteep(ActionEvent e) {
+    public void onSteepClicked(ActionEvent e) {
         //todo: non blocking ui
         //fixme: bigger size doesnt work
         //int iter=0;
+if(extendedMethod.isSelected()) {
+    System.out.println("Extended Moore");
+    ca.extendedMoore = true;
+    ca.probablity4thRule=Integer.parseInt(probablity4thRule.getText());
+}
+else {
+    ca.extendedMoore=false;
+    //ca.probablity4thRule=Integer.parseInt(probablity4thRule.getText());
 
+}
         System.out.println("Computing");
 
         while (!ca.isBoardFull())
@@ -225,7 +249,7 @@ data.add(String.valueOf(width)+"\n");
     private void redrawCells(){
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
+                graphicsContext.setFill(ca.cellsOld[i + 1][j + 1].getState());
                 graphicsContext.fillRect(i, j, 1, 1);
             }
         }
@@ -259,6 +283,39 @@ data.add(String.valueOf(width)+"\n");
 //        }
 
         ca.addInclusions(series.getValue(), Integer.parseInt(numOfInclusions.getText()), Integer.parseInt(sizeOfInclusions.getText()));
+        redrawCells();
+    }
+
+    @FXML
+    private void addGrainToList(MouseEvent mouseEvent){
+        if(mouseEvent.isShiftDown()){
+            if (selectedGrains.contains(ca.cells[(int) mouseEvent.getX() + 1][(int) mouseEvent.getY() + 1].getState()))
+                selectedGrains.remove(ca.cells[(int) mouseEvent.getX() + 1][(int) mouseEvent.getY() + 1].getState());
+        }
+
+        else {
+            if (!selectedGrains.contains(ca.cells[(int) mouseEvent.getX() + 1][(int) mouseEvent.getY() + 1].getState()))
+                selectedGrains.add(ca.cells[(int) mouseEvent.getX() + 1][(int) mouseEvent.getY() + 1].getState());
+        }
+        selectedGrainsLabel.setText("Selected Grains: "+selectedGrains.size());
+
+    }
+
+    @FXML
+    private void clearNonSelectedGrains(){
+        ca.removeNonSelectedGrains(selectedGrains);
+        System.out.println("Grains removed");
+        redrawCells();
+    }
+
+    @FXML
+    private void continueAfterRemove(){
+        seeds=Integer.parseInt(seedsField.getText());
+
+        ca.seedGrains(seeds);
+        selectedGrains.clear();
+        selectedGrainsLabel.setText("Selected Grains: "+selectedGrains.size());
+
         redrawCells();
     }
     }
