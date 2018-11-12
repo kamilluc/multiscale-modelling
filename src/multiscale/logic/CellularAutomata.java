@@ -123,7 +123,9 @@ private int width;
             int x=rng.nextInt((width-1))+1;
             int y=rng.nextInt((height-1))+1;
             Color newState= Color.rgb(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256));
-            if(!colors.contains(newState) && !cells[x][y].getState().equals(Color.BLACK)){
+//            if(!colors.contains(newState) && !cells[x][y].getState().equals(Color.BLACK)){
+            if(!colors.contains(newState) && cells[x][y].getState().equals(Color.WHITE)){
+
                 cells[x][y].setState(newState);
                 colors.add(newState);
                 newSeeds++;
