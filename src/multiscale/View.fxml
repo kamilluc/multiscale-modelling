@@ -21,8 +21,8 @@
       <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSetClicked" prefHeight="25.0" text="Set" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="17" />
       <TextField fx:id="widthField" prefHeight="25.0" prefWidth="46.0" text="300" GridPane.columnIndex="3" GridPane.rowIndex="11" />
       <TextField fx:id="heightField" text="300" GridPane.columnIndex="3" GridPane.rowIndex="12" />
-      <Label text="Width:" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-      <Label text="Height:" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+      <Label text="Height:" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+      <Label text="Width:" GridPane.columnIndex="2" GridPane.rowIndex="12" />
       <Canvas fx:id="canvas" height="300.0" onMouseClicked="#addGrainToList" width="300.0" GridPane.rowIndex="12" GridPane.rowSpan="5">
          <GridPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
@@ -52,9 +52,9 @@
          </children>
       </HBox>
       <ChoiceBox fx:id="series" prefWidth="150.0" GridPane.columnIndex="3" GridPane.rowIndex="14" />
-      <Label text="Inclusions" GridPane.columnIndex="2" GridPane.rowIndex="14" />
-      <Label text="Number of Inclusions" GridPane.columnIndex="2" GridPane.rowIndex="15" />
-      <Label text="Size of Inclusion" GridPane.columnIndex="2" GridPane.rowIndex="16" />
+      <Label text="Inclusions Type:" GridPane.columnIndex="2" GridPane.rowIndex="14" />
+      <Label text="Number of Inclusions:" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+      <Label text="Size of Inclusion:" GridPane.columnIndex="2" GridPane.rowIndex="16" />
       <TextField fx:id="numOfInclusions" text="5" GridPane.columnIndex="3" GridPane.rowIndex="15" />
       <TextField fx:id="sizeOfInclusions" text="12" GridPane.columnIndex="3" GridPane.rowIndex="16" />
       <CheckBox fx:id="extendedMethod" mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="18" />
@@ -66,8 +66,8 @@
       <Button mnemonicParsing="false" onAction="#clearNonSelectedGrains" text="Remove non-selected Grains" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="21" />
       <Label fx:id="selectedGrainsLabel" text="0" GridPane.columnIndex="3" GridPane.rowIndex="22" />
       <Button fx:id="continueAfterRemove" mnemonicParsing="false" onAction="#continueAfterRemove" text="Continue" GridPane.columnIndex="2" GridPane.rowIndex="22" />
-      <Button mnemonicParsing="false" text="Clear Entire Space" onAction="#onEntireClearClick" GridPane.columnIndex="2" GridPane.rowIndex="23" />
-      <Button mnemonicParsing="false" text="Clear Selected Space" GridPane.columnIndex="3" GridPane.rowIndex="23" />
+      <Button mnemonicParsing="false" onAction="#onEntireClearClick" text="Clear Entire Space" GridPane.columnIndex="2" GridPane.rowIndex="23" />
+      <Button mnemonicParsing="false" onAction="#onSelectedClearClick" text="Clear Selected Space" GridPane.columnIndex="3" GridPane.rowIndex="23" />
    </children>
    <columnConstraints>
       <ColumnConstraints />

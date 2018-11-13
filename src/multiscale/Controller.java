@@ -396,6 +396,15 @@ index+=2;
         ca.clearSpace();
         redrawCells();
     }
+
+    @FXML
+    private void onSelectedClearClick(){
+        ca.clearSelectedSpace(selectedGrains);
+        selectedGrains.clear();
+        selectedGrainsLabel.setText("Selected Grains: "+selectedGrains.size());
+
+        redrawCells();
+    }
     }
 
 

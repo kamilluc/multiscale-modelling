@@ -298,6 +298,57 @@ private int width;
         }
     }
 
+    public void clearSelectedSpace(List<Color> selectedGrains){
+        boolean boundary=false;
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
+                if (selectedGrains.contains(cellsOld[i][j].getState()))
+                {       boundary = false;
+                if (!cellsOld[i][j].getState().equals(cellsOld[i][j + 1].getState()))
+                    boundary = true;
+                else if (!cellsOld[i][j].getState().equals(cellsOld[i][j - 1].getState()))
+                    boundary = true;
+                else if (!cellsOld[i][j].getState().equals(cellsOld[i + 1][j - 1].getState()))
+                    boundary = true;
+                else if (!cellsOld[i][j].getState().equals(cellsOld[i + 1][j].getState()))
+                    boundary = true;
+                else if (!cellsOld[i][j].getState().equals(cellsOld[i + 1][j + 1].getState()))
+                    boundary = true;
+                else if (!cellsOld[i][j].getState().equals(cellsOld[i - 1][j - 1].getState()))
+                    boundary = true;
+                else if (!cellsOld[i][j].getState().equals(cellsOld[i - 1][j].getState()))
+                    boundary = true;
+                else if (!cellsOld[i][j].getState().equals(cellsOld[i - 1][j + 1].getState()))
+                    boundary = true;
+                if (boundary)
+                    cells[i][j].setPhase(10);
+            }
+            }
+        }
+
+        //update
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cellsOld[i][j].setState(cells[i][j].getState());
+                cellsOld[i][j].setPhase(cells[i][j].getPhase());
+            }
+        }
+
+        //change colors
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                if(cellsOld[i][j].getPhase()!=10) {
+                    cellsOld[i][j].setState(Color.WHITE);
+                    cellsOld[i][j].setPhase(0);
+
+                }
+                else
+                    cellsOld[i][j].setState(Color.BLACK);
+//                cellsOld[i][j].setPhase(cells[i][j].getPhase());
+            }
+        }
+    }
+
     public void clearSpace() {
         //setting phase
         boolean boundary=false;
