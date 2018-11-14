@@ -11,6 +11,7 @@ private int width;
     public boolean extendedMoore;
     public int probablity4thRule;
     public Cell[][] cells, cellsOld;
+    private static int inclusions=0;
 
     public void initBoard() {
 
@@ -31,7 +32,7 @@ private int width;
 //        board=new Board(width, height);
 //
 //  boardOld=board;
-
+inclusions=0;
         this.width=width+2;
         this.height=height+2;
         initBoard();
@@ -182,7 +183,9 @@ boolean done=false;
                         else
                             map.put(color, map.get(color)+1);
                     }
-                if(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getValue()>=3){
+//                    int a=Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getValue();
+
+                if(!map.isEmpty() && Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getValue()>=3){
                     done=true;
                     cells[x][y].setState(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
 
@@ -223,7 +226,7 @@ boolean done=false;
                     else
                         map.put(color, map.get(color)+1);
                 }
-                if(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getValue()>=3){
+                if(!map.isEmpty() && Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getValue()>=3){
                     done=true;
                     cells[x][y].setState(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
 
@@ -236,6 +239,7 @@ boolean done=false;
 
             if(!done){
 //todo rand if change at all if yes => norm moore with most coomon id
+                closeColors.clear();
                 Random rng=new Random();
                 if(rng.nextInt(100)+1<probablity4thRule){
                     //jump here
@@ -376,6 +380,14 @@ boolean done=false;
                 if (!cells[x][y].getState().equals(Color.BLACK)){
 //                if (cells[x][y].getState().equals(Color.BLACK)){
 
+
+//                    for(int w=0;w<axesX.size();w++){
+//                        int xx=axesX.get(w);
+//                        int yy=axesY.get(w);
+//                        if(x)
+//                    }
+
+
                     axesX.add(x);
                     axesY.add(y);
                 }
@@ -430,8 +442,11 @@ boolean done=false;
             for(int e=0;e<number;e++) {
                 for(int i=-a;i<=a;i++) {
                     for (int j = -a; j <= a; j++) {
-                        if(axesX.get(0) + i>0 && axesX.get(0) + i<width-1 && axesY.get(0) + j >0 && axesY.get(0) + j <height-1)
-                        cells[axesX.get(0) + i][axesY.get(0) + j].setState(Color.BLACK);
+                        if(axesX.get(0) + i>0 && axesX.get(0) + i<width-1 && axesY.get(0) + j >0 && axesY.get(0) + j <height-1) {
+                            if (i > 0 && i < width - 1 && j > 0 && j < height - 1)
+
+                                cells[axesX.get(0) + i][axesY.get(0) + j].setState(Color.BLACK);
+                        }
                     }
                 }
                 axesX.remove(0);
@@ -466,34 +481,194 @@ boolean done=false;
 //                cellsOld[i][j].setState(cells[i][j].getState());
 //            }
 //        }
-        System.out.println("inclusions added");
+//        System.out.println("inclusions added");
+    }
+
+
+    public void addInclusionsV2(String type, int number, double size) {
+Random rng=new Random();
+int currentNumber=0;
+boolean checker=false;
+boolean inBoundary=false;
+
+        if(type.contains("Square")) {
+            int a = (int) ((size / Math.sqrt(2.0)) / 2.0);
+            while (currentNumber < number) {
+                checker = false;
+                inBoundary=false;
+                int x = rng.nextInt((width - a * 2-1)) + 1;
+                int y = rng.nextInt((height - a * 2-1)) + 1;
+                if (!cells[x][y].getState().equals(Color.BLACK)) {
+                    if(type.contains("Random")) {
+                        if (cells[x + 2*a][y].getState().equals(Color.BLACK) || cells[x + 2*a][y + 2*a].getState().equals(Color.BLACK) || cells[x][y + 2*a].getState().equals(Color.BLACK))
+                            checker = true;
+                        if (!checker) {
+                            for(int i=x;i<=x+2*a;i++) {
+                                for (int j = y; j <= y + 2 * a; j++) {
+                                    cells[i][j].setState(Color.BLACK);
+                                }
+                            }
+                            currentNumber++;
+                            inclusions++;
+                        }
+                    }
+                    else{
+                        Color color=cells[x][y].getState();
+                        for(int i=-1;i<=1;i++) {
+                            for (int j = -1; j <= 1; j++) {
+                                if(x+i>0 && x+i<width-1 && y+j>0 && y+j<height-1) {
+                                    if (cells[x + i][y + j].getState() != color){
+                                        inBoundary = true;
+                                    break;}
+                                }
+                            }
+                        }
+
+                        if (inBoundary) {
+                            if (cells[x- a][y+a].getState().equals(Color.BLACK) || cells[x + a][y - a].getState().equals(Color.BLACK) || cells[x+a][y + a].getState().equals(Color.BLACK) || cells[x-a][y -a].getState().equals(Color.BLACK))
+                                checker = true;
+                            if (!checker) {
+                                for(int i=x-a;i<=x+a;i++) {
+                                    for (int j = y-a; j <= y + a; j++) {
+                                        cells[i][j].setState(Color.BLACK);
+                                    }
+                                }
+                                currentNumber++;
+                                inclusions++;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if(type.contains("Circle")) {
+            int r = (int) (size / 2.0);
+            while (currentNumber < number) {
+                checker = false;
+                inBoundary=false;
+                int x = rng.nextInt((width - r * 2-1)) + r;
+                int y = rng.nextInt((height - r * 2-1)) +r;
+                if (!cells[x][y].getState().equals(Color.BLACK)) {
+                    if(type.contains("Random")) {
+                        if (cells[x][y+r].getState().equals(Color.BLACK) || cells[x][y-r].getState().equals(Color.BLACK) || cells[x-r][y].getState().equals(Color.BLACK) || cells[x+r][y].getState().equals(Color.BLACK) || cells[x+r][y+r].getState().equals(Color.BLACK) || cells[x+r][y-r].getState().equals(Color.BLACK) || cells[x-r][y + r].getState().equals(Color.BLACK) || cells[x-r][y - r].getState().equals(Color.BLACK))
+                            checker = true;
+                        if (!checker) {
+                            for(int i=x-r;i<=x+r;i++) {
+                                for (int j = y-r; j <= y + r; j++) {
+                                    if (((i - x) * (i - x) + (j - y) * (j - y)) <= (r * r)){
+                                        if( i>0 && i<width-1 &&j >0 &&  j <height-1)
+                                            cells[i][j].setState(Color.BLACK);
+
+                                    }
+                                }
+                            }
+                            currentNumber++;
+                            inclusions++;
+                        }
+                    }
+                    else{
+                        Color color=cells[x][y].getState();
+                        for(int i=-1;i<=1;i++) {
+                            for (int j = -1; j <= 1; j++) {
+                                if(x+i>0 && x+i<width-1 && y+j>0 && y+j<height-1) {
+                                    if (cells[x + i][y + j].getState() != color){
+                                        inBoundary = true;
+                                        break;}
+                                }
+                            }
+                        }
+
+                        if (inBoundary) {
+                            if (cells[x][y+r].getState().equals(Color.BLACK) || cells[x][y-r].getState().equals(Color.BLACK) || cells[x-r][y].getState().equals(Color.BLACK) || cells[x+r][y].getState().equals(Color.BLACK) || cells[x+r][y+r].getState().equals(Color.BLACK) || cells[x+r][y-r].getState().equals(Color.BLACK) || cells[x-r][y + r].getState().equals(Color.BLACK) || cells[x-r][y - r].getState().equals(Color.BLACK))
+                                checker = true;
+                            if (!checker) {
+                                for(int i=x-r;i<=x+r;i++) {
+                                    for (int j = y-r; j <= y + r; j++) {
+                                        if (((i - x) * (i - x) + (j - y) * (j - y)) <= (r * r)){
+                                            if( i>0 && i<width-1 &&j >0 &&  j <height-1)
+                                                cells[i][j].setState(Color.BLACK);
+
+                                        }
+                                    }
+                                }
+                                currentNumber++;
+                                inclusions++;
+
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
+        }
+
+
+
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cellsOld[i][j].setState(cells[i][j].getState());
+            }
+        }
+        System.out.println("Inclusions "+inclusions);
     }
 
 
     public void removeNonSelectedGrains(List<Color> selectedGrains, String type){
-        if(type.equalsIgnoreCase("disable"))
+        if(type.equalsIgnoreCase("Substructure")) {
 
-            System.out.println("disable");
+            //System.out.println("disable");
 //todo: finish it
-        //        structureList.addAll("Disable", "Substructure", "Dual-Phase");
+            //        structureList.addAll("Disable", "Substructure", "Dual-Phase");
 
-        for(int i=1;i<width-1;i++){
-            for(int j=1;j<height-1;j++){
-                if(!selectedGrains.contains(cellsOld[i][j].getState())){
-                    if(!cellsOld[i][j].getState().equals(Color.BLACK)){
-                        cells[i][j].setState(Color.WHITE);
-                    }}
-                    else
+            for (int i = 1; i < width - 1; i++) {
+                for (int j = 1; j < height - 1; j++) {
+                    if (!selectedGrains.contains(cellsOld[i][j].getState())) {
+                        if (!cellsOld[i][j].getState().equals(Color.BLACK)) {
+                            cells[i][j].setState(Color.WHITE);
+                        }
+                    } else
                         cells[i][j].setPhase(2);
+                }
+            }
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    cellsOld[i][j].setState(cells[i][j].getState());
+                    cellsOld[i][j].setPhase(cells[i][j].getPhase());
+                }
             }
         }
-        for(int i=0;i<width;i++){
-            for(int j=0;j<height;j++){
-                cellsOld[i][j].setState(cells[i][j].getState());
-                cellsOld[i][j].setPhase(cells[i][j].getPhase());
+        else if(type.equalsIgnoreCase("Dual-Phase")){
+            for (int i = 1; i < width - 1; i++) {
+                for (int j = 1; j < height - 1; j++) {
+                    if (!selectedGrains.contains(cellsOld[i][j].getState())) {
+                        if (!cellsOld[i][j].getState().equals(Color.BLACK)) {
+                            cells[i][j].setState(Color.WHITE);
+                        }
+                    } else {
+                        cells[i][j].setPhase(2);
+                        cells[i][j].setState(Color.DEEPPINK);
+                    }
+                }
+            }
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    cellsOld[i][j].setState(cells[i][j].getState());
+                    cellsOld[i][j].setPhase(cells[i][j].getPhase());
+                }
             }
         }
+
     }
+
+
+
+
+
+
 
     public void clearSelectedSpace(List<Color> selectedGrains){
         boolean boundary=false;

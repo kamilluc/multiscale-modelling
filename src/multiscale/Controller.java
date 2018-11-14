@@ -357,7 +357,7 @@ index+=2;
 //
 //        }
 
-        ca.addInclusions(series.getValue(), Integer.parseInt(numOfInclusions.getText()), Integer.parseInt(sizeOfInclusions.getText()));
+        ca.addInclusionsV2(series.getValue(), Integer.parseInt(numOfInclusions.getText()), Integer.parseInt(sizeOfInclusions.getText()));
         redrawCells();
     }
 
