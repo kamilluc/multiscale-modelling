@@ -103,6 +103,9 @@ series.setValue("Disable");
         graphicsContext.clearRect(0, 0, width, height);
         ca=new CellularAutomata(width,height);
         ca.seedGrains(seeds);
+        //todo: all of it should be in separate function and call it from here and after other buttons clicks
+        ca.probablity4thRule=Integer.parseInt(probablity4thRule.getText());
+        ca.extendedMoore=extendedMethod.isSelected();
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
@@ -375,7 +378,7 @@ index+=2;
 
     @FXML
     private void clearNonSelectedGrains(){
-        ca.removeNonSelectedGrains(selectedGrains);
+        ca.removeNonSelectedGrains(selectedGrains, structureSeries.getValue());
         System.out.println("Grains removed");
         redrawCells();
     }

@@ -101,6 +101,196 @@ private int width;
         }
     }
 
+
+
+
+
+//fixme: should be run in neext steep if extended to to jak nie to neumann
+    private void extendedMoore(int x, int y){
+        if(cellsOld[x][y].getState().equals(Color.WHITE)){
+boolean done=false;
+
+            //rule 1
+            //The id of particular cell depends on its all neighbors. If five to eight of the cells neighbors id’s is equal to S, then cell transforms to the state
+
+            List<Color> closeColors=new ArrayList<>();
+//todo: change id properly
+            if(!cellsOld[x+1][y].getState().equals(Color.WHITE) && !cellsOld[x+1][y].getState().equals(Color.BLACK) && cellsOld[x+1][y].getPhase()!=2)
+                closeColors.add(cellsOld[x+1][y].getState());
+
+            if(!cellsOld[x-1][y].getState().equals(Color.WHITE) && !cellsOld[x-1][y].getState().equals(Color.BLACK) && cellsOld[x-1][y].getPhase()!=2 )
+                closeColors.add(cellsOld[x-1][y].getState());
+
+            if(!cellsOld[x][y+1].getState().equals(Color.WHITE) && !cellsOld[x][y+1].getState().equals(Color.BLACK) && cellsOld[x][y+1].getPhase()!=2)
+                closeColors.add(cellsOld[x][y+1].getState());
+
+            if(!cellsOld[x][y-1].getState().equals(Color.WHITE) && !cellsOld[x][y-1].getState().equals(Color.BLACK) && cellsOld[x][y-1].getPhase()!=2)
+                closeColors.add(cellsOld[x][y-1].getState());
+
+            if(!cellsOld[x+1][y+1].getState().equals(Color.WHITE) && !cellsOld[x+1][y+1].getState().equals(Color.BLACK) && cellsOld[x+1][y+1].getPhase()!=2)
+                closeColors.add(cellsOld[x+1][y+1].getState());
+
+
+            if(!cellsOld[x+1][y-1].getState().equals(Color.WHITE) && !cellsOld[x+1][y-1].getState().equals(Color.BLACK) && cellsOld[x+1][y-1].getPhase()!=2)
+                closeColors.add(cellsOld[x+1][y-1].getState());
+
+            if(!cellsOld[x-1][y-1].getState().equals(Color.WHITE) && !cellsOld[x-1][y-1].getState().equals(Color.BLACK) && cellsOld[x-1][y-1].getPhase()!=2)
+                closeColors.add(cellsOld[x-1][y-1].getState());
+
+            if(!cellsOld[x-1][y+1].getState().equals(Color.WHITE) && !cellsOld[x-1][y+1].getState().equals(Color.BLACK) && cellsOld[x-1][y+1].getPhase()!=2)
+                closeColors.add(cellsOld[x-1][y+1].getState());
+
+            if(!closeColors.isEmpty()){
+                Map<Color, Integer> map=new HashMap<>();
+                for(Color color: closeColors){
+                    if(!map.containsKey(color))
+                        map.put(color,1);
+                    else
+                        map.put(color, map.get(color)+1);
+                }
+                if(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getValue()>=5){
+                    done=true;
+                    cells[x][y].setState(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
+
+
+                }
+
+            }
+
+
+            //rule 2
+            if(!done){
+                closeColors.clear();
+                //todo copy neuman check if map>=3
+                if(!cellsOld[x+1][y].getState().equals(Color.WHITE) && !cellsOld[x+1][y].getState().equals(Color.BLACK) && cellsOld[x+1][y].getPhase()!=2)
+                    closeColors.add(cellsOld[x+1][y].getState());
+
+                if(!cellsOld[x-1][y].getState().equals(Color.WHITE) && !cellsOld[x-1][y].getState().equals(Color.BLACK) && cellsOld[x-1][y].getPhase()!=2 )
+                    closeColors.add(cellsOld[x-1][y].getState());
+
+                if(!cellsOld[x][y+1].getState().equals(Color.WHITE) && !cellsOld[x][y+1].getState().equals(Color.BLACK) && cellsOld[x][y+1].getPhase()!=2)
+                    closeColors.add(cellsOld[x][y+1].getState());
+
+                if(!cellsOld[x][y-1].getState().equals(Color.WHITE) && !cellsOld[x][y-1].getState().equals(Color.BLACK) && cellsOld[x][y-1].getPhase()!=2)
+                    closeColors.add(cellsOld[x][y-1].getState());
+
+                    Map<Color, Integer> map=new HashMap<>();
+//                //todo: remove list, use hashmap
+                    for(Color color: closeColors){
+                        if(!map.containsKey(color))
+                            map.put(color,1);
+                        else
+                            map.put(color, map.get(color)+1);
+                    }
+                if(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getValue()>=3){
+                    done=true;
+                    cells[x][y].setState(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
+
+
+                }
+
+            }
+
+
+            //rule 3
+
+
+//todo copy mod neuman check if map>=3
+            if(!done){
+                closeColors.clear();
+                //todo copy neuman check if map>=3
+
+
+                if(!cellsOld[x+1][y+1].getState().equals(Color.WHITE) && !cellsOld[x+1][y+1].getState().equals(Color.BLACK) && cellsOld[x+1][y+1].getPhase()!=2)
+                    closeColors.add(cellsOld[x+1][y+1].getState());
+
+
+                if(!cellsOld[x+1][y-1].getState().equals(Color.WHITE) && !cellsOld[x+1][y-1].getState().equals(Color.BLACK) && cellsOld[x+1][y-1].getPhase()!=2)
+                    closeColors.add(cellsOld[x+1][y-1].getState());
+
+                if(!cellsOld[x-1][y-1].getState().equals(Color.WHITE) && !cellsOld[x-1][y-1].getState().equals(Color.BLACK) && cellsOld[x-1][y-1].getPhase()!=2)
+                    closeColors.add(cellsOld[x-1][y-1].getState());
+
+                if(!cellsOld[x-1][y+1].getState().equals(Color.WHITE) && !cellsOld[x-1][y+1].getState().equals(Color.BLACK) && cellsOld[x-1][y+1].getPhase()!=2)
+                    closeColors.add(cellsOld[x-1][y+1].getState());
+
+
+                Map<Color, Integer> map=new HashMap<>();
+//                //todo: remove list, use hashmap
+                for(Color color: closeColors){
+                    if(!map.containsKey(color))
+                        map.put(color,1);
+                    else
+                        map.put(color, map.get(color)+1);
+                }
+                if(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getValue()>=3){
+                    done=true;
+                    cells[x][y].setState(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
+
+
+                }
+
+            }
+
+            //rule 4
+
+            if(!done){
+//todo rand if change at all if yes => norm moore with most coomon id
+                Random rng=new Random();
+                if(rng.nextInt(100)+1<probablity4thRule){
+                    //jump here
+
+                    if(!cellsOld[x+1][y].getState().equals(Color.WHITE) && !cellsOld[x+1][y].getState().equals(Color.BLACK) && cellsOld[x+1][y].getPhase()!=2)
+                        closeColors.add(cellsOld[x+1][y].getState());
+
+                    if(!cellsOld[x-1][y].getState().equals(Color.WHITE) && !cellsOld[x-1][y].getState().equals(Color.BLACK) && cellsOld[x-1][y].getPhase()!=2 )
+                        closeColors.add(cellsOld[x-1][y].getState());
+
+                    if(!cellsOld[x][y+1].getState().equals(Color.WHITE) && !cellsOld[x][y+1].getState().equals(Color.BLACK) && cellsOld[x][y+1].getPhase()!=2)
+                        closeColors.add(cellsOld[x][y+1].getState());
+
+                    if(!cellsOld[x][y-1].getState().equals(Color.WHITE) && !cellsOld[x][y-1].getState().equals(Color.BLACK) && cellsOld[x][y-1].getPhase()!=2)
+                        closeColors.add(cellsOld[x][y-1].getState());
+
+                    if(!cellsOld[x+1][y+1].getState().equals(Color.WHITE) && !cellsOld[x+1][y+1].getState().equals(Color.BLACK) && cellsOld[x+1][y+1].getPhase()!=2)
+                        closeColors.add(cellsOld[x+1][y+1].getState());
+
+
+                    if(!cellsOld[x+1][y-1].getState().equals(Color.WHITE) && !cellsOld[x+1][y-1].getState().equals(Color.BLACK) && cellsOld[x+1][y-1].getPhase()!=2)
+                        closeColors.add(cellsOld[x+1][y-1].getState());
+
+                    if(!cellsOld[x-1][y-1].getState().equals(Color.WHITE) && !cellsOld[x-1][y-1].getState().equals(Color.BLACK) && cellsOld[x-1][y-1].getPhase()!=2)
+                        closeColors.add(cellsOld[x-1][y-1].getState());
+
+                    if(!cellsOld[x-1][y+1].getState().equals(Color.WHITE) && !cellsOld[x-1][y+1].getState().equals(Color.BLACK) && cellsOld[x-1][y+1].getPhase()!=2)
+                        closeColors.add(cellsOld[x-1][y+1].getState());
+
+                    if(!closeColors.isEmpty()){
+                        Map<Color, Integer> map=new HashMap<>();
+                        for(Color color: closeColors){
+                            if(!map.containsKey(color))
+                                map.put(color,1);
+                            else
+                                map.put(color, map.get(color)+1);
+                        }
+                        cells[x][y].setState(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
+                            done=true;
+                           //cells[x][y].setState(Collections.max(map.entrySet(), (entry1, entry2) -> entry1.getValue() - entry2.getValue()).getKey());
+
+
+                        }
+
+                    }
+                }
+            }
+
+    }
+
+
+
+
+
+
     public void seedGrains(int numberOfSeeds){
         Random rng = new Random();
 //todo: check if randomized position is empty if not random once more
@@ -158,7 +348,8 @@ private int width;
     public void nextSteep(){
         for(int i=1;i<width-1;i++){
             for(int j=1;j<height-1;j++){
-                vonNeumann(i,j);
+                if(extendedMoore) extendedMoore(i,j);
+                else vonNeumann(i,j);
             }
         }
 
@@ -279,7 +470,13 @@ private int width;
     }
 
 
-    public void removeNonSelectedGrains(List<Color> selectedGrains){
+    public void removeNonSelectedGrains(List<Color> selectedGrains, String type){
+        if(type.equalsIgnoreCase("disable"))
+
+            System.out.println("disable");
+//todo: finish it
+        //        structureList.addAll("Disable", "Substructure", "Dual-Phase");
+
         for(int i=1;i<width-1;i++){
             for(int j=1;j<height-1;j++){
                 if(!selectedGrains.contains(cellsOld[i][j].getState())){
