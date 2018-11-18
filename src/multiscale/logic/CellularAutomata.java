@@ -221,7 +221,7 @@ public class CellularAutomata {
             int x=rng.nextInt((width-1))+1;
             int y=rng.nextInt((height-1))+1;
             Color newState= Color.rgb(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256));
-            if(!colors.contains(newState) && cells[x][y].getState().equals(Color.WHITE)){
+            if(!colors.contains(newState) && cellsOld[x][y].getState().equals(Color.WHITE)){
                 cells[x][y].setState(newState);
                 colors.add(newState);
                 newSeeds++;
@@ -530,6 +530,7 @@ public class CellularAutomata {
             }
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
+
                     cellsOld[i][j].setState(cells[i][j].getState());
                     cellsOld[i][j].setPhase(cells[i][j].getPhase());
                 }
@@ -597,14 +598,23 @@ public class CellularAutomata {
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 if(cellsOld[i][j].getPhase()!=10) {
-                    cellsOld[i][j].setState(Color.WHITE);
-                    cellsOld[i][j].setPhase(0);
+                    cells[i][j].setState(Color.WHITE);
+                    cells[i][j].setPhase(0);
 
                 }
                 else
-                    cellsOld[i][j].setState(Color.BLACK);
+                    cells[i][j].setState(Color.BLACK);
             }
         }
+        //update
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cellsOld[i][j].setState(cells[i][j].getState());
+                cellsOld[i][j].setPhase(cells[i][j].getPhase());
+            }
+        }
+
+
     }
 
     public void clearSpace() {
@@ -634,6 +644,27 @@ public class CellularAutomata {
             }
         }
 
+//        //update
+//        for(int i=0;i<width;i++){
+//            for(int j=0;j<height;j++){
+//                cellsOld[i][j].setState(cells[i][j].getState());
+//                cellsOld[i][j].setPhase(cells[i][j].getPhase());
+//            }
+//        }
+//
+//        //change colors
+//        for(int i=0;i<width;i++){
+//            for(int j=0;j<height;j++){
+//                if(cellsOld[i][j].getPhase()!=10) {
+//                    cellsOld[i][j].setState(Color.WHITE);
+//                    cellsOld[i][j].setPhase(0);
+//
+//                }
+//                else
+//                    cellsOld[i][j].setState(Color.BLACK);
+//            }
+//        }
+
         //update
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
@@ -646,12 +677,19 @@ public class CellularAutomata {
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 if(cellsOld[i][j].getPhase()!=10) {
-                    cellsOld[i][j].setState(Color.WHITE);
-                    cellsOld[i][j].setPhase(0);
+                    cells[i][j].setState(Color.WHITE);
+                    cells[i][j].setPhase(0);
 
                 }
                 else
-                    cellsOld[i][j].setState(Color.BLACK);
+                    cells[i][j].setState(Color.BLACK);
+            }
+        }
+        //update
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cellsOld[i][j].setState(cells[i][j].getState());
+                cellsOld[i][j].setPhase(cells[i][j].getPhase());
             }
         }
     }

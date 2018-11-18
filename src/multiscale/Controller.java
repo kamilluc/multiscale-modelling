@@ -62,8 +62,12 @@ public class Controller implements Initializable {
     @FXML
     private CheckBox extendedMethod;
 
+
+
+
     @FXML
     private TextField probablity4thRule;
+
     private GraphicsContext graphicsContext;
 
     @Override
@@ -113,6 +117,7 @@ public class Controller implements Initializable {
         seedsField.setDisable(false);
     }
 
+
     public void onSteepClicked(ActionEvent e) {
         //todo: non blocking ui -> separate thread for gui
         //fixme: bigger size doesnt work properly -> gui
@@ -126,13 +131,25 @@ public class Controller implements Initializable {
         ca.extendedMoore=false;
         }
         System.out.println("Computing");
+
+            System.out.println("Drawing");
+
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
+                    graphicsContext.fillRect(i, j, 1, 1);
+                }
+            }
+
+
         while (!ca.isBoardFull())
         {
             ca.nextSteep();
         }
-        System.out.println("Adding Inclusions");
-        addInclusion();
+
+
         System.out.println("Drawing");
+
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 graphicsContext.setFill(ca.cells[i + 1][j + 1].getState());
@@ -262,7 +279,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void addInclusion(){
+    public void addInclusion(){
         ca.addInclusionsV2(series.getValue(), Integer.parseInt(numOfInclusions.getText()), Integer.parseInt(sizeOfInclusions.getText()));
         redrawCells();
     }

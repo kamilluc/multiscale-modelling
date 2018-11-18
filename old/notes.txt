@@ -30,3 +30,13 @@ wrap all settings in new grid
 
 
 pytnaie? jak wczytuje z bitmapy do struktury
+
+
+
+class 7
+thickness in gui default 1px
+same color as inclusion (black)
+po gb rozrost ziaren
+
+
+nie uzywac seed !! --- nawet w ui
