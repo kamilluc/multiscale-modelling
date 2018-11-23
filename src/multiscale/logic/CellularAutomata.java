@@ -10,6 +10,7 @@ public class CellularAutomata {
     public int probablity4thRule;
     public Cell[][] cells, cellsOld;
     private static int inclusions=0;
+    List<Color> colorsMc;
 
     public void initBoard() {
         cells=new Cell[width][height];
@@ -30,6 +31,7 @@ public class CellularAutomata {
         initBoard();
         extendedMoore=false;
         probablity4thRule=10;
+        colorsMc=new ArrayList<>();
     }
 
     private void vonNeumann(int x, int y){
@@ -693,4 +695,60 @@ public class CellularAutomata {
             }
         }
     }
+
+    public void initMC(int numberOfStates){
+        Random rng=new Random();
+
+        while(colorsMc.size()<numberOfStates) {
+            Color newState= Color.rgb(rng.nextInt(256),rng.nextInt(256),rng.nextInt(256));
+            if(!colorsMc.contains(newState) && !newState.equals(Color.WHITE) && !newState.equals(Color.BLACK)){
+                colorsMc.add(newState);
+            }
+        }
+
+
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cells[i][j].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
+            }
+        }
+        for(int i=0;i<width;i++){
+            for(int j=0;j<height;j++){
+                cellsOld[i][j].setState(cells[i][j].getState());
+                cellsOld[i][j].setPhase(cells[i][j].getPhase());
+            }
+        }
+
+    }
+
+    public int calculateEnergy(int x, int y){
+        int energy=0;
+        for(int i=-1;i<=1;i++){
+            for(int j=-1;j<=1;j++){
+                if(i==0 && j==0) continue;
+                if(!cellsOld[x+i][y+j].getState().equals(cellsOld[x][y].getState()))
+                    energy++;
+            }
+        }
+        return energy;
+    }
+
+    public void nextMCSteep(){
+        //uzywac tylko cellsOld
+        //sprawdzac losowo nie w petli po kolei!!.
+        //dodac do gui
+        Random rng=new Random();
+        for(int i=1;i<width-1;i++){
+            for(int j=1;j<height-1;j++){
+                int energyOld=calculateEnergy(i,j);
+                Color stateOld=cellsOld[i][j].getState();
+                cellsOld[i][j].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
+                int energyNew=calculateEnergy(i,j);
+                if(energyNew>energyOld){
+                    cellsOld[i][j].setState(stateOld);
+                }
+            }
+        }
+    }
+
 }
