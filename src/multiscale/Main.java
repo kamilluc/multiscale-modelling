@@ -14,7 +14,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("View.fxml"));
         primaryStage.setTitle("Multiscale Modeling");
         primaryStage.setResizable(false);
-        primaryStage.setScene(new Scene(root, 630, 460));
+        primaryStage.setScene(new Scene(root, 800, 500));
         primaryStage.getIcons().add(new Image("file:icon.png"));
         String css =this.getClass().getResource("Style.css").toExternalForm();
         root.getStylesheets().add(css);

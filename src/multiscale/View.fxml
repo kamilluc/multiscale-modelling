@@ -69,8 +69,11 @@
       <Button mnemonicParsing="false" onAction="#onEntireClearClick" text="Clear Entire Space" GridPane.columnIndex="2" GridPane.rowIndex="25" />
       <Button mnemonicParsing="false" onAction="#onSelectedClearClick" text="Clear Selected Space" GridPane.columnIndex="3" GridPane.rowIndex="25" />
       <Button mnemonicParsing="false" onAction="#addInclusion" text="Add Incusions" GridPane.columnIndex="2" GridPane.rowIndex="17" />
+      <Button mnemonicParsing="false" onAction="#onMonteCarloStartClick" text="Monte Carlo INIT" GridPane.columnIndex="7" GridPane.rowIndex="11" />
+      <Button mnemonicParsing="false" onAction="#onMonteCarloRunClick" text="Monte Carlo RUN" GridPane.columnIndex="7" GridPane.rowIndex="12" />
    </children>
    <columnConstraints>
+      <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />

@@ -738,16 +738,29 @@ public class CellularAutomata {
         //sprawdzac losowo nie w petli po kolei!!.
         //dodac do gui
         Random rng=new Random();
+//        for(int i=1;i<width-1;i++){
+//            for(int j=1;j<height-1;j++){
+//                int energyOld=calculateEnergy(i,j);
+//                Color stateOld=cellsOld[i][j].getState();
+//                cellsOld[i][j].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
+//                int energyNew=calculateEnergy(i,j);
+//                if(energyNew>energyOld){
+//                    cellsOld[i][j].setState(stateOld);
+//                }
+//            }
+//        }
+
+
+        List<Cell> cellsList=new ArrayList<>();
         for(int i=1;i<width-1;i++){
             for(int j=1;j<height-1;j++){
-                int energyOld=calculateEnergy(i,j);
-                Color stateOld=cellsOld[i][j].getState();
-                cellsOld[i][j].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
-                int energyNew=calculateEnergy(i,j);
-                if(energyNew>energyOld){
-                    cellsOld[i][j].setState(stateOld);
-                }
+                cellsList.add(cellsOld[i][j]);
             }
+        }
+
+
+        for(int i=0;i<cellsList.size();i++){
+            //todo
         }
     }
 

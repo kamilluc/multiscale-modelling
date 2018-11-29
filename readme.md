@@ -1,1 +1,1 @@
-# Multiscale Modeling 1st Project
+# Multiscale Modeling Project

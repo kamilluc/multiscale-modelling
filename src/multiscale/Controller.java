@@ -326,4 +326,19 @@ public class Controller implements Initializable {
         selectedGrainsLabel.setText("Selected Grains: "+selectedGrains.size());
         redrawCells();
     }
+
+    @FXML
+    private void onMonteCarloStartClick(){
+        System.out.println("mc");
+        seeds=Integer.parseInt(seedsField.getText());
+        ca.initMC(seeds);
+redrawCells();
+    }
+
+    @FXML
+    private void onMonteCarloRunClick(){
+        System.out.println("mc2");
+
+        redrawCells();
+    }
     }
