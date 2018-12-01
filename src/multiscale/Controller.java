@@ -40,7 +40,8 @@ public class Controller implements Initializable {
 
     @FXML
     private TextField widthField;
-
+@FXML
+private TextField iterationsMc;
     @FXML
     private TextField heightField;
 
@@ -89,9 +90,9 @@ public class Controller implements Initializable {
     }
 
     public void onSetClicked(ActionEvent e){
-        widthField.setDisable(true);
-        heightField.setDisable(true);
-        seedsField.setDisable(true);
+      //  widthField.setDisable(true);
+       // heightField.setDisable(true);
+      //  seedsField.setDisable(true);
         width=Integer.parseInt(widthField.getText());
         height=Integer.parseInt(heightField.getText());
         seeds=Integer.parseInt(seedsField.getText());
@@ -130,6 +131,7 @@ public class Controller implements Initializable {
         else {
         ca.extendedMoore=false;
         }
+        ca.clearBorders();
         System.out.println("Computing");
 
             System.out.println("Drawing");
@@ -141,9 +143,11 @@ public class Controller implements Initializable {
                 }
             }
 
-
+        int iter=0;
         while (!ca.isBoardFull())
         {
+            iter++;
+            if(iter>1000) break;
             ca.nextSteep();
         }
 
@@ -157,7 +161,7 @@ public class Controller implements Initializable {
             }
         }
         System.out.println("Done");
-        unlockInterface();
+       // unlockInterface();
     }
 
     @FXML
@@ -306,6 +310,7 @@ public class Controller implements Initializable {
 
     @FXML
     private void continueAfterRemove(){
+        ca.clearBorders();
         seeds=Integer.parseInt(seedsField.getText());
         ca.seedGrains(seeds);
         selectedGrains.clear();
@@ -329,7 +334,7 @@ public class Controller implements Initializable {
 
     @FXML
     private void onMonteCarloStartClick(){
-        System.out.println("mc");
+//        System.out.println("mc");
         seeds=Integer.parseInt(seedsField.getText());
         ca.initMC(seeds);
 redrawCells();
@@ -337,8 +342,13 @@ redrawCells();
 
     @FXML
     private void onMonteCarloRunClick(){
-        System.out.println("mc2");
-
+//        System.out.println("mc2");
+        int iteration=Integer.parseInt(iterationsMc.getText());
+        for(int i=0;i<iteration;i++) {
+            ca.nextMCSteep();
+//            System.out.println("MC iteration:\t" + (i+1));
+        }
+//        ca.clearBorders();
         redrawCells();
     }
     }

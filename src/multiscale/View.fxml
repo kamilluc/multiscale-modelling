@@ -71,6 +71,8 @@
       <Button mnemonicParsing="false" onAction="#addInclusion" text="Add Incusions" GridPane.columnIndex="2" GridPane.rowIndex="17" />
       <Button mnemonicParsing="false" onAction="#onMonteCarloStartClick" text="Monte Carlo INIT" GridPane.columnIndex="7" GridPane.rowIndex="11" />
       <Button mnemonicParsing="false" onAction="#onMonteCarloRunClick" text="Monte Carlo RUN" GridPane.columnIndex="7" GridPane.rowIndex="12" />
+      <TextField fx:id="iterationsMc" text="10" GridPane.columnIndex="7" GridPane.rowIndex="15" />
+      <Label text="Number of MC Iterations" GridPane.columnIndex="7" GridPane.rowIndex="14" />
    </children>
    <columnConstraints>
       <ColumnConstraints />
