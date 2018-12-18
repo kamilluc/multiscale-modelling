@@ -709,6 +709,7 @@ public class CellularAutomata {
 
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
+                if(cells[i][j].getState().equals(Color.WHITE))
                 cells[i][j].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
             }
         }
@@ -744,11 +745,22 @@ public void clearBorders(){
         }
     //System.out.println(width+" "+height);
 }
-    public void nextMCSteep(){
+
+public void updateCells(){    for(int i=0;i<width;i++){
+    for(int j=0;j<height;j++){
+        cellsOld[i][j].setState(cells[i][j].getState());
+        cellsOld[i][j].setPhase(cells[i][j].getPhase());
+    }
+}}
+    public void nextMCSteep() {
         //uzywac tylko cellsOld
         //sprawdzac losowo nie w petli po kolei!!.
         //dodac do gui
-        Random rng=new Random();
+
+
+
+
+        Random rng = new Random();
 //        for(int i=1;i<width-1;i++){
 //            for(int j=1;j<height-1;j++){
 //                int energyOld=calculateEnergy(i,j);
@@ -762,44 +774,48 @@ public void clearBorders(){
 //        }
 
 
-        List<Point> pointsList=new ArrayList<>();
-        for(int i=1;i<width-1;i++){
-            for(int j=1;j<height-1;j++){
-                pointsList.add(new Point(i,j));
+        List<Point> pointsList = new ArrayList<>();
+        for (int i = 1; i < width - 2; i++) {
+            for (int j = 1; j < height - 2; j++) {
+                if(!cellsOld[i][j].getState().equals(Color.PINK) || !cellsOld[i][j].getState().equals(Color.BLACK))
+                pointsList.add(new Point(i, j));
             }
         }
 
         //v2
-Collections.shuffle(pointsList);
+        Collections.shuffle(pointsList);
 
-        for(int i=0;i<pointsList.size();i++){
+        for (int i = 0; i < pointsList.size(); i++) {
             //int id=rng.nextInt(pointsList.size());
             //Point point=pointsList.get(id);
             //pointsList.remove(id);
 
             //v2 b
-            Point point=pointsList.get(i);
-            int x,y;
-            while(true){
+            Point point = pointsList.get(i);
+            int x, y;
+            while (true) {
 
-                x=rng.nextInt(3)-1;
-                y=rng.nextInt(3)-1;
-                if(x!=0 && y!=0)
+                x = rng.nextInt(3) - 1;
+                y = rng.nextInt(3) - 1;
+                if (x != 0 && y != 0)
                     break;
             }
 
             //v2 e
-
-                int energyOld=calculateEnergy(point.x,point.y);
-                Color stateOld=cellsOld[point.x][point.y].getState();
+            //if (!cellsOld[point.x][point.y].getState().equals(Color.BLACK) && !cellsOld[point.x][point.y].getState().equals(Color.PINK)) {
+                int energyOld = calculateEnergy(point.x, point.y);
+                Color stateOld = cellsOld[point.x][point.y].getState();
 //                cellsOld[point.x][point.y].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
-            cellsOld[point.x][point.y].setState(cellsOld[point.x+x][point.y+y].getState());
+                cellsOld[point.x][point.y].setState(cellsOld[point.x + x][point.y + y].getState());
 
-            int energyNew=calculateEnergy(point.x,point.y);
-                if(energyNew>energyOld){
+                int energyNew = calculateEnergy(point.x, point.y);
+                if (energyNew > energyOld) {
                     cellsOld[point.x][point.y].setState(stateOld);
                 }
-        }
+            //}
+            }
+
+
     }
 
 }

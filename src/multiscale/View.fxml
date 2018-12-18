@@ -73,8 +73,15 @@
       <Button mnemonicParsing="false" onAction="#onMonteCarloRunClick" text="Monte Carlo RUN" GridPane.columnIndex="7" GridPane.rowIndex="12" />
       <TextField fx:id="iterationsMc" text="10" GridPane.columnIndex="7" GridPane.rowIndex="15" />
       <Label text="Number of MC Iterations" GridPane.columnIndex="7" GridPane.rowIndex="14" />
+      <Button mnemonicParsing="false" onAction="#onChangeViewMode" text="Change View Mode" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="16" />
+      <Label text="Energy inside:" GridPane.columnIndex="7" GridPane.rowIndex="17" />
+      <Label text="Energy outside:" GridPane.columnIndex="7" GridPane.rowIndex="19" />
+      <TextField fx:id="hminText" text="5" GridPane.columnIndex="8" GridPane.rowIndex="17" />
+      <TextField fx:id="hmaxText" text="7" GridPane.columnIndex="8" GridPane.rowIndex="19" />
+      <ChoiceBox fx:id="energyDistSeries" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="16" />
    </children>
    <columnConstraints>
+      <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
