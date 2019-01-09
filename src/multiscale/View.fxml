@@ -82,7 +82,7 @@
       <Label text="Nucleation Type:" GridPane.columnIndex="7" GridPane.rowIndex="20" />
       <Label text="Nucleons on start:" GridPane.columnIndex="7" GridPane.rowIndex="21" />
       <Label text="Iterations" GridPane.columnIndex="7" GridPane.rowIndex="22" />
-      <Button mnemonicParsing="false" onAction="#startRecrystalization" text="Start Recrystalization" GridPane.columnIndex="7" GridPane.rowIndex="24" />
+      <Button mnemonicParsing="false" onAction="#startRecrystalization" text="Start Recrystalization" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="24" />
       <ChoiceBox fx:id="nucleationTypeSeries" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="20" />
       <TextField fx:id="recrystallNucleonsText" text="10" GridPane.columnIndex="8" GridPane.rowIndex="21" />
       <TextField fx:id="recrystallIterationsText" text="10" GridPane.columnIndex="8" GridPane.rowIndex="22" />

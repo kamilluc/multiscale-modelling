@@ -385,6 +385,7 @@ public class Controller implements Initializable {
     }
 
     private boolean mode = true;
+    private boolean henergy = false;
 
     @FXML
     private void onChangeViewMode() {
@@ -406,7 +407,10 @@ public class Controller implements Initializable {
             if( energyDistSeries.getValue().equalsIgnoreCase("Homogeneous")) hmax=hmin;
             else hmax=Integer.parseInt(hmaxText.getText());
 
-            ca.recalculateHEnergy(hmin, hmax);
+            if(!henergy) {
+                henergy=true;
+                ca.recalculateHEnergy(hmin, hmax);
+            }
 
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
@@ -430,25 +434,44 @@ public class Controller implements Initializable {
 
     @FXML
     private void startRecrystalization() {
+        //h
         int hmin = Integer.parseInt(hminText.getText());
-        int hmax = Integer.parseInt(hmaxText.getText());
+        int hmax;
         String energyDist = energyDistSeries.getValue();
+        //calculate h energy once if wasnt done before
+        if( energyDistSeries.getValue().equalsIgnoreCase("Homogeneous")) hmax=hmin;
+        else hmax=Integer.parseInt(hmaxText.getText());
+        if(!henergy) {
+            henergy=true;
+            ca.recalculateHEnergy(hmin, hmax);
+        }
+
+        //rest of data
         String nucleationType = nucleationTypeSeries.getValue();
         int numOfNucleons = Integer.parseInt(recrystallNucleonsText.getText());
         int iterations = Integer.parseInt(recrystallIterationsText.getText());
+        String nucleationLocation = nucleationLocationSeries.getValue();
+
 
         //todo: add above elements to gui
-        if (energyDist.equalsIgnoreCase("Heterogeneus")) {
-            // sprawdz grain boundary jesli true energy = hmax
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < height; j++) {
-                    int e=ca.calculateEnergy(i+1,j+i);
-                    if (e>0){
-                        //change on hmax
-                        ca.cellsOld[i+1][j+1].setH(11);
-                    }
-                }
-            }
-        }
+//        if (energyDist.equalsIgnoreCase("Heterogeneus")) {
+//            // sprawdz grain boundary jesli true energy = hmax
+//            for (int i = 0; i < width; i++) {
+//                for (int j = 0; j < height; j++) {
+//                    int e=ca.calculateEnergy(i+1,j+i);
+//                    if (e>0){
+//                        //change on hmax
+//                        ca.cellsOld[i+1][j+1].setH(11);
+//                    }
+//                }
+//            }
+//        }
+
+        System.out.println("recrystall start");
+
+
     }
+
+
+
 }
