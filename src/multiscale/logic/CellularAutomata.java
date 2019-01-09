@@ -255,8 +255,10 @@ public class CellularAutomata {
     public void nextSteep(){
         for(int i=1;i<width-1;i++){
             for(int j=1;j<height-1;j++){
-                if(extendedMoore) extendedMoore(i,j);
-                else vonNeumann(i,j);
+            //    if(cells[i][j].getPhase()!=888) {
+                    if (extendedMoore) extendedMoore(i, j);
+                    else vonNeumann(i, j);
+              //  }
             }
         }
 
@@ -709,14 +711,21 @@ public class CellularAutomata {
 
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
-                if(cells[i][j].getState().equals(Color.WHITE))
-                cells[i][j].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
+                if(cells[i][j].getState().equals(Color.WHITE)) {
+                    cells[i][j].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
+                    ///888  - MC
+                    cells[i][j].setPhase(888);
+
+                    //           cells[i][j].setMCDone(true);
+                }
             }
         }
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 cellsOld[i][j].setState(cells[i][j].getState());
                 cellsOld[i][j].setPhase(cells[i][j].getPhase());
+ //               cellsOld[i][j].setMCDone(cells[i][j].isMCDone());
+//                cells[i][j].setMCDone(true);
             }
         }
 
@@ -782,8 +791,8 @@ public class CellularAutomata {
         List<Point> pointsList = new ArrayList<>();
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
-                if(!cellsOld[i][j].getState().equals(Color.PINK) || !cellsOld[i][j].getState().equals(Color.BLACK))
-                pointsList.add(new Point(i, j));
+                if(!cellsOld[i][j].getState().equals(Color.DEEPPINK) && !cellsOld[i][j].getState().equals(Color.BLACK) && !cells[i][j].getState().equals(Color.DEEPPINK) && !cellsOld[i][j].getState().equals(Color.BLACK))
+                    pointsList.add(new Point(i, j));
             }
         }
 
@@ -802,7 +811,7 @@ public class CellularAutomata {
 
                 x = rng.nextInt(3) - 1;
                 y = rng.nextInt(3) - 1;
-                if (x != 0 && y != 0)
+                if (x != 0 && y != 0 && !cellsOld[point.x + x][point.y + y].getState().equals(Color.DEEPPINK))
                     break;
             }
 
@@ -811,6 +820,7 @@ public class CellularAutomata {
                 int energyOld = calculateEnergy(point.x, point.y);
                 Color stateOld = cellsOld[point.x][point.y].getState();
 //                cellsOld[point.x][point.y].setState(colorsMc.get(rng.nextInt(colorsMc.size())));
+
                 cellsOld[point.x][point.y].setState(cellsOld[point.x + x][point.y + y].getState());
 
                 int energyNew = calculateEnergy(point.x, point.y);
