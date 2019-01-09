@@ -833,4 +833,30 @@ public class CellularAutomata {
 
     }
 
+
+    private boolean isOnBorder(int x,int y){
+        boolean answer=false;
+        Color color=cellsOld[x][y].getState();
+        for(int i=x-1;i<=x+1;i++){
+            for(int j=y-1;j<=y+1;j++){
+                if(i!=0 && j!=0 && i!=width-1 && j!=height-1) {
+                    if (!cellsOld[i][j].getState().equals(color)) {
+                        answer = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return answer;
+    }
+
+    public void recalculateHEnergy(int min, int max){
+        for(int i=1;i<width-1;i++) {
+            for (int j = 1; j < height - 1; j++) {
+                    if(cellsOld[i][j].isRecrystalized()) cellsOld[i][j].setH(0);
+                    else if(isOnBorder(i,j)) cellsOld[i][j].setH(max);
+                    else cellsOld[i][j].setH(min);
+            }
+        }
+    }
 }

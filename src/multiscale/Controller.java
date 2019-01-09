@@ -105,10 +105,10 @@ public class Controller implements Initializable {
         structureList.addAll("Disable", "Substructure", "Dual-Phase");
         structureSeries.getItems().addAll(structureList);
 
-        energyDistList.addAll("Disable", "Homogeneous", "Heterogeneus");
+        energyDistList.addAll("Homogeneous", "Heterogeneus");
         energyDistSeries.getItems().addAll(energyDistList);
 
-        nucleationTypeList.addAll("Disabl", "Constant", "Increasing");
+        nucleationTypeList.addAll("Disable", "Constant", "Increasing");
         nucleationTypeSeries.getItems().addAll(nucleationTypeList);
     }
 
@@ -389,17 +389,22 @@ public class Controller implements Initializable {
 //                       if(h<hmin)   hmin=h;
 //                   }
 //               }
+            int hmax;
+            int hmin = Integer.parseInt(hminText.getText());
 
+            if( energyDistSeries.getValue().equalsIgnoreCase("Homogeneous")) hmax=hmin;
+            else hmax=Integer.parseInt(hmaxText.getText());
+
+            ca.recalculateHEnergy(hmin, hmax);
 
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < height; j++) {
                     int h = ca.cellsOld[i + 1][j + 1].getH();
                     Color c;
-                    int hmax = Integer.parseInt(hmaxText.getText());
-                    int hmin = Integer.parseInt(hminText.getText());
-                    if (h >= hmax) c = Color.GREEN;
+
+                    if (h == hmin) c = Color.BLUE;
                     else if (h == 0) c = Color.RED;
-                    else c = Color.BLUE;
+                    else c = Color.AQUA;
 
 
                     graphicsContext.setFill(c);
