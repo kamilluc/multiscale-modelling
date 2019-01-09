@@ -87,8 +87,12 @@ public class Controller implements Initializable {
 
     @FXML
     private TextField recrystallNucleonsText;
+
     @FXML
     private TextField probablity4thRule;
+
+    @FXML
+    private CheckBox showRecrystal;
 
     private GraphicsContext graphicsContext;
 
@@ -101,8 +105,8 @@ public class Controller implements Initializable {
         series.setValue("Disable");
         structureSeries.setValue("Dual-Phase");
         energyDistSeries.setValue("Heterogeneus");
-        nucleationTypeSeries.setValue("Constant");
-        nucleationLocationSeries.setValue("GB");
+        nucleationTypeSeries.setValue("At the begining of simulation");
+        nucleationLocationSeries.setValue("Anywhere");
 
     }
 
@@ -312,6 +316,20 @@ public class Controller implements Initializable {
         }
     }
 
+    private void redrawCellsRecrystall() {
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if(!ca.cellsOld[i+1][j+1].isRecrystalized())
+                    graphicsContext.setFill(ca.cellsOld[i + 1][j + 1].getState());
+                else{
+                    graphicsContext.setFill(Color.color(ca.cellsOld[i + 1][j + 1].getState().getRed(),0.0,0.0));
+                }
+
+                graphicsContext.fillRect(i, j, 1, 1);
+            }
+        }
+    }
+
     @FXML
     public void addInclusion() {
         ca.addInclusionsV2(series.getValue(), Integer.parseInt(numOfInclusions.getText()), Integer.parseInt(sizeOfInclusions.getText()));
@@ -390,7 +408,10 @@ public class Controller implements Initializable {
     @FXML
     private void onChangeViewMode() {
         if (!mode) {
-            redrawCells();
+            if(showRecrystal.isSelected())
+//            redrawCells();
+            redrawCellsRecrystall();
+            else redrawCells();
         } else {
 //               int hmin=10000,hmax=-1;
 //
@@ -468,7 +489,13 @@ public class Controller implements Initializable {
 //        }
 
         System.out.println("recrystall start");
+//        public void recrystall(int iterationCounter, int numberOfNucleons, String nucleationType, String nucelonsLocation){
 
+        for(int i=0;i<iterations;i++){
+            ca.recrystall(i,numOfNucleons,nucleationType,nucleationLocation);
+        }
+        System.out.println("recrystall end\ndrawing");
+        redrawCells();
 
     }
 

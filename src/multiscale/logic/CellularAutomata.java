@@ -859,4 +859,49 @@ public class CellularAutomata {
             }
         }
     }
+
+private void seedRecrysallNucelons(List<Point> nonRecrystallList, String nucelonsLocation, int number){
+        if(nucelonsLocation.equalsIgnoreCase("Anywhere")){
+            for(int i=0;i<number;i++){
+                Point point=nonRecrystallList.get(i);
+                cellsOld[point.x][point.y].setRecrystalized(true);
+                cellsOld[point.x][point.y].setH(0);
+            }
+        }
+}
+
+    public void recrystall(int iterationCounter, int numberOfNucleons, String nucleationType, String nucelonsLocation){
+        //is all recrysalized? w liscie
+        Random rng = new Random();
+
+        List<Point> recrystalizedPointsList = new ArrayList<>();
+        List<Point> nonRecrystalizedPointsList = new ArrayList<>();
+
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
+                if(cellsOld[i][j].isRecrystalized())
+                    recrystalizedPointsList.add(new Point(i, j));
+                else
+                    nonRecrystalizedPointsList.add(new Point(i, j));
+            }
+        }
+
+        //try to seed
+        //fixme: number of nucelons
+        if(nonRecrystalizedPointsList.size()>numberOfNucleons){
+            Collections.shuffle(nonRecrystalizedPointsList);
+            //todo: add rest of types
+            if(nucleationType.equalsIgnoreCase("At the begining of simulation") && iterationCounter==0){
+                seedRecrysallNucelons(nonRecrystalizedPointsList,nucelonsLocation,numberOfNucleons);
+            }
+
+        }
+
+
+
+
+
+
+
+    }
 }

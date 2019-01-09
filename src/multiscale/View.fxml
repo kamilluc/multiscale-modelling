@@ -89,6 +89,7 @@
       <Label text="Energy Distribution:" GridPane.columnIndex="7" GridPane.rowIndex="16" />
       <Label text="Nucleons location:" GridPane.columnIndex="7" GridPane.rowIndex="23" />
       <ChoiceBox fx:id="nucleationLocationSeries" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="23" />
+      <CheckBox fx:id="showRecrystal" mnemonicParsing="false" text="Show Recrystal" GridPane.columnIndex="8" GridPane.rowIndex="25" />
    </children>
    <columnConstraints>
       <ColumnConstraints />
