@@ -733,12 +733,16 @@ public class CellularAutomata {
         }
         return energy;
     }
-public void clearBorders(){
+
+    public void clearBorders(){
         for(int i=0;i<width;i++){
             for(int j=0;j<height;j++){
                 if(i==0 || j==0 || i==(width-1) || j==(height-1)){ //&& dodac
 //                    System.out.println(i+" "+j);
                     cellsOld[i][j].setState(Color.WHITE);
+                    cells[i][j].setState(Color.WHITE);
+                    cellsOld[i][j].setPhase(0);
+                    cells[i][j].setPhase(0);
 
                 }
             }
@@ -746,12 +750,13 @@ public void clearBorders(){
     //System.out.println(width+" "+height);
 }
 
-public void updateCells(){    for(int i=0;i<width;i++){
+    public void updateCells(){    for(int i=0;i<width;i++){
     for(int j=0;j<height;j++){
         cellsOld[i][j].setState(cells[i][j].getState());
         cellsOld[i][j].setPhase(cells[i][j].getPhase());
     }
 }}
+
     public void nextMCSteep() {
         //uzywac tylko cellsOld
         //sprawdzac losowo nie w petli po kolei!!.
@@ -775,8 +780,8 @@ public void updateCells(){    for(int i=0;i<width;i++){
 
 
         List<Point> pointsList = new ArrayList<>();
-        for (int i = 1; i < width - 2; i++) {
-            for (int j = 1; j < height - 2; j++) {
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
                 if(!cellsOld[i][j].getState().equals(Color.PINK) || !cellsOld[i][j].getState().equals(Color.BLACK))
                 pointsList.add(new Point(i, j));
             }

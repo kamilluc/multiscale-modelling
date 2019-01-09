@@ -153,7 +153,7 @@ public class Controller implements Initializable {
         } else {
             ca.extendedMoore = false;
         }
-        ca.clearBorders();
+       // ca.clearBorders();
         System.out.println("Computing");
 
         System.out.println("Drawing");
@@ -328,12 +328,13 @@ public class Controller implements Initializable {
 
     @FXML
     private void continueAfterRemove() {
-        ca.clearBorders();
         seeds = Integer.parseInt(seedsField.getText());
         ca.seedGrains(seeds);
         selectedGrains.clear();
         selectedGrainsLabel.setText("Selected Grains: " + selectedGrains.size());
         redrawCells();
+        ca.clearBorders();
+
     }
 
     @FXML
@@ -356,6 +357,7 @@ public class Controller implements Initializable {
         seeds = Integer.parseInt(seedsField.getText());
         ca.initMC(seeds);
         redrawCells();
+
     }
 
     @FXML

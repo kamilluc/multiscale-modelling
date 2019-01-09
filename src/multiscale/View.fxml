@@ -30,7 +30,7 @@
       <Button id="runButton" mnemonicParsing="false" onAction="#onSteepClicked" text="Run" GridPane.columnIndex="2" GridPane.rowIndex="19" />
       <Label text="Number of Nucleations:" GridPane.columnIndex="2" GridPane.rowIndex="13" />
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="1" GridPane.rowIndex="11" GridPane.rowSpan="2147483647" />
-      <TextField fx:id="seedsField" text="10" GridPane.columnIndex="3" GridPane.rowIndex="13" />
+      <TextField fx:id="seedsField" text="2" GridPane.columnIndex="3" GridPane.rowIndex="13" />
       <HBox GridPane.columnSpan="2147483647" GridPane.rowIndex="2">
          <children>
             <MenuBar>
@@ -71,7 +71,7 @@
       <Button mnemonicParsing="false" onAction="#addInclusion" text="Add Incusions" GridPane.columnIndex="2" GridPane.rowIndex="17" />
       <Button mnemonicParsing="false" onAction="#onMonteCarloStartClick" text="Monte Carlo INIT" GridPane.columnIndex="7" GridPane.rowIndex="11" />
       <Button mnemonicParsing="false" onAction="#onMonteCarloRunClick" text="Monte Carlo RUN" GridPane.columnIndex="7" GridPane.rowIndex="12" />
-      <TextField fx:id="iterationsMc" text="10" GridPane.columnIndex="7" GridPane.rowIndex="15" />
+      <TextField fx:id="iterationsMc" text="100" GridPane.columnIndex="7" GridPane.rowIndex="15" />
       <Label text="Number of MC Iterations" GridPane.columnIndex="7" GridPane.rowIndex="14" />
       <Button mnemonicParsing="false" onAction="#onChangeViewMode" text="Change View Mode" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="16" />
       <Label text="Energy inside:" GridPane.columnIndex="7" GridPane.rowIndex="17" />
