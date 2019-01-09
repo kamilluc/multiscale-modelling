@@ -920,8 +920,11 @@ public class CellularAutomata {
 
                 }
             }
-
         }
+        //seed end
+
+        //growth start
+
 
 
 

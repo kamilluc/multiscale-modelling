@@ -452,7 +452,7 @@ public class Controller implements Initializable {
         }
         mode = !mode;
     }
-
+int crystalIter=0;
     @FXML
     private void startRecrystalization() {
         //h
@@ -491,9 +491,13 @@ public class Controller implements Initializable {
         System.out.println("recrystall start");
 //        public void recrystall(int iterationCounter, int numberOfNucleons, String nucleationType, String nucelonsLocation){
 
-        for(int i=0;i<iterations;i++){
-            ca.recrystall(i,numOfNucleons,nucleationType,nucleationLocation,iterations);
-        }
+         for(int i=0;i<iterations;i++) {
+
+             ca.recrystall(i, numOfNucleons, nucleationType, nucleationLocation, iterations);
+         }
+
+       //ca.recrystall(crystalIter,numOfNucleons,nucleationType,nucleationLocation,iterations);
+        // crystalIter++;
         System.out.println("recrystall end\ndrawing");
         redrawCells();
 
