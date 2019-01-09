@@ -32,6 +32,8 @@ public class Controller implements Initializable {
     ObservableList structureList = FXCollections.observableArrayList();
     ObservableList energyDistList = FXCollections.observableArrayList();
     ObservableList nucleationTypeList = FXCollections.observableArrayList();
+    ObservableList nucleationLocationList = FXCollections.observableArrayList();
+
     List<Color> selectedGrains;
 
     @FXML
@@ -39,15 +41,19 @@ public class Controller implements Initializable {
 
     @FXML
     private ChoiceBox<String> structureSeries;
+
     @FXML
     private ChoiceBox<String> energyDistSeries;
+
     @FXML
+    private ChoiceBox<String> nucleationLocationSeries;
 
-
+    @FXML
     private TextField widthField;
 
     @FXML
     private ChoiceBox<String> nucleationTypeSeries;
+
     @FXML
     private TextField iterationsMc;
     @FXML
@@ -93,9 +99,11 @@ public class Controller implements Initializable {
         selectedGrains = new ArrayList();
         selectedGrainsLabel.setText("Selected Grains: 0");
         series.setValue("Disable");
-        structureSeries.setValue("Disable");
-        energyDistSeries.setValue("Disable");
-        nucleationTypeSeries.setValue("Disable");
+        structureSeries.setValue("Dual-Phase");
+        energyDistSeries.setValue("Heterogeneus");
+        nucleationTypeSeries.setValue("Constant");
+        nucleationLocationSeries.setValue("GB");
+
     }
 
     private void loadData() {
@@ -108,8 +116,11 @@ public class Controller implements Initializable {
         energyDistList.addAll("Homogeneous", "Heterogeneus");
         energyDistSeries.getItems().addAll(energyDistList);
 
-        nucleationTypeList.addAll("Disable", "Constant", "Increasing");
+        nucleationTypeList.addAll("Disable", "Constant", "Increasing", "At the begining of simulation");
         nucleationTypeSeries.getItems().addAll(nucleationTypeList);
+
+        nucleationLocationList.addAll("Disable", "GB", "Anywhere");
+        nucleationLocationSeries.getItems().addAll(nucleationLocationList);
     }
 
     public void onSetClicked(ActionEvent e) {
