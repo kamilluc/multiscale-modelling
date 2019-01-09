@@ -860,7 +860,7 @@ public class CellularAutomata {
         }
     }
 
-private void seedRecrysallNucelons(List<Point> nonRecrystallList, String nucelonsLocation, int number){
+    private void seedRecrysallNucelons(List<Point> nonRecrystallList, String nucelonsLocation, int number){
         if(nucelonsLocation.equalsIgnoreCase("Anywhere")){
             for(int i=0;i<number;i++){
                 Point point=nonRecrystallList.get(i);
@@ -868,9 +868,22 @@ private void seedRecrysallNucelons(List<Point> nonRecrystallList, String nucelon
                 cellsOld[point.x][point.y].setH(0);
             }
         }
-}
 
-    public void recrystall(int iterationCounter, int numberOfNucleons, String nucleationType, String nucelonsLocation){
+    if(nucelonsLocation.equalsIgnoreCase("GB")){
+        int j=0;
+        for(int i=0;i<nonRecrystallList.size();i++){
+            Point point=nonRecrystallList.get(i);
+            if(isOnBorder(point.x,point.y)) {
+                cellsOld[point.x][point.y].setRecrystalized(true);
+                cellsOld[point.x][point.y].setH(0);
+                j++;
+            }
+            if(j>=number) break;
+        }
+    }
+    }
+
+    public void recrystall(int iterationCounter, int numberOfNucleons, String nucleationType, String nucelonsLocation, int maxIterations){
         //is all recrysalized? w liscie
         Random rng = new Random();
 
@@ -893,6 +906,19 @@ private void seedRecrysallNucelons(List<Point> nonRecrystallList, String nucelon
             //todo: add rest of types
             if(nucleationType.equalsIgnoreCase("At the begining of simulation") && iterationCounter==0){
                 seedRecrysallNucelons(nonRecrystalizedPointsList,nucelonsLocation,numberOfNucleons);
+            }
+            else if(nucleationType.equalsIgnoreCase("Constant")){
+                int nucelonsPart=(int)(numberOfNucleons/maxIterations);
+                seedRecrysallNucelons(nonRecrystalizedPointsList,nucelonsLocation,nucelonsPart);
+
+            }
+            //increasing
+            else{
+                int nucelonsPart=(int)(numberOfNucleons/maxIterations);
+                if(iterationCounter<4){
+                    seedRecrysallNucelons(nonRecrystalizedPointsList,nucelonsLocation,(int)(nucelonsPart*(iterationCounter+1)));
+
+                }
             }
 
         }

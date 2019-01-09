@@ -492,7 +492,7 @@ public class Controller implements Initializable {
 //        public void recrystall(int iterationCounter, int numberOfNucleons, String nucleationType, String nucelonsLocation){
 
         for(int i=0;i<iterations;i++){
-            ca.recrystall(i,numOfNucleons,nucleationType,nucleationLocation);
+            ca.recrystall(i,numOfNucleons,nucleationType,nucleationLocation,iterations);
         }
         System.out.println("recrystall end\ndrawing");
         redrawCells();

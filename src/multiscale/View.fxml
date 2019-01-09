@@ -71,7 +71,7 @@
       <Button mnemonicParsing="false" onAction="#addInclusion" text="Add Incusions" GridPane.columnIndex="2" GridPane.rowIndex="17" />
       <Button mnemonicParsing="false" onAction="#onMonteCarloStartClick" text="Monte Carlo INIT" GridPane.columnIndex="7" GridPane.rowIndex="11" />
       <Button mnemonicParsing="false" onAction="#onMonteCarloRunClick" text="Monte Carlo RUN" GridPane.columnIndex="7" GridPane.rowIndex="12" />
-      <TextField fx:id="iterationsMc" text="100" GridPane.columnIndex="7" GridPane.rowIndex="15" />
+      <TextField fx:id="iterationsMc" text="10" GridPane.columnIndex="7" GridPane.rowIndex="15" />
       <Label text="Number of MC Iterations" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="14" />
       <Button mnemonicParsing="false" onAction="#onChangeViewMode" text="Change View Mode" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="25" />
       <Label text="Energy inside:" GridPane.columnIndex="7" GridPane.rowIndex="17" />
@@ -84,7 +84,7 @@
       <Label text="Iterations" GridPane.columnIndex="7" GridPane.rowIndex="22" />
       <Button mnemonicParsing="false" onAction="#startRecrystalization" text="Start Recrystalization" GridPane.columnIndex="7" GridPane.columnSpan="2" GridPane.rowIndex="24" />
       <ChoiceBox fx:id="nucleationTypeSeries" prefWidth="150.0" GridPane.columnIndex="8" GridPane.rowIndex="20" />
-      <TextField fx:id="recrystallNucleonsText" text="10" GridPane.columnIndex="8" GridPane.rowIndex="21" />
+      <TextField fx:id="recrystallNucleonsText" text="100" GridPane.columnIndex="8" GridPane.rowIndex="21" />
       <TextField fx:id="recrystallIterationsText" text="10" GridPane.columnIndex="8" GridPane.rowIndex="22" />
       <Label text="Energy Distribution:" GridPane.columnIndex="7" GridPane.rowIndex="16" />
       <Label text="Nucleons location:" GridPane.columnIndex="7" GridPane.rowIndex="23" />
