@@ -323,6 +323,8 @@ public class Controller implements Initializable {
                     graphicsContext.setFill(ca.cellsOld[i + 1][j + 1].getState());
                 else{
                     graphicsContext.setFill(Color.color(ca.cellsOld[i + 1][j + 1].getState().getRed(),0.0,0.0));
+//                    graphicsContext.setFill(Color.color(1.0,0.0,0.0));
+
                 }
 
                 graphicsContext.fillRect(i, j, 1, 1);
@@ -493,13 +495,16 @@ int crystalIter=0;
 
          for(int i=0;i<iterations;i++) {
 
-             ca.recrystall(i, numOfNucleons, nucleationType, nucleationLocation, iterations);
+            ca.recrystall(i, numOfNucleons, nucleationType, nucleationLocation, iterations);
          }
 
-       //ca.recrystall(crystalIter,numOfNucleons,nucleationType,nucleationLocation,iterations);
-        // crystalIter++;
+      // ca.recrystall(crystalIter,numOfNucleons,nucleationType,nucleationLocation,iterations);
+       //  crystalIter++;
         System.out.println("recrystall end\ndrawing");
-        redrawCells();
+        if(showRecrystal.isSelected())
+        redrawCellsRecrystall();
+        else
+            redrawCells();
 
     }
 

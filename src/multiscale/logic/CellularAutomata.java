@@ -887,20 +887,21 @@ public class CellularAutomata {
         //is all recrysalized? w liscie
         Random rng = new Random();
 
-        List<Point> recrystalizedPointsList = new ArrayList<>();
+        //List<Point> recrystalizedPointsList = new ArrayList<>();
         List<Point> nonRecrystalizedPointsList = new ArrayList<>();
 
         for (int i = 1; i < width - 1; i++) {
             for (int j = 1; j < height - 1; j++) {
-                if(cellsOld[i][j].isRecrystalized())
-                    recrystalizedPointsList.add(new Point(i, j));
-                else
+                if(!cellsOld[i][j].isRecrystalized())
                     nonRecrystalizedPointsList.add(new Point(i, j));
+                //else
+                  // nonRecrystalizedPointsList.add(new Point(i, j));
             }
         }
 
         //try to seed
         //fixme: number of nucelons
+        System.out.println("\n\t"+nonRecrystalizedPointsList.size());
         if(nonRecrystalizedPointsList.size()>numberOfNucleons){
             Collections.shuffle(nonRecrystalizedPointsList);
             //todo: add rest of types
@@ -924,6 +925,40 @@ public class CellularAutomata {
         //seed end
 
         //growth start
+        List<Point> nonRecrystalizedPointsList2 = new ArrayList<>();
+
+        for (int i = 1; i < width - 1; i++) {
+            for (int j = 1; j < height - 1; j++) {
+                if (!cellsOld[i][j].isRecrystalized())
+                    nonRecrystalizedPointsList2.add(new Point(i, j));
+            }
+        }
+        Collections.shuffle(nonRecrystalizedPointsList2);
+
+        for(int i=0;i<nonRecrystalizedPointsList2.size();i++){
+            Point point=nonRecrystalizedPointsList2.get(i);
+            if(hasRecrystallizedNeighbour(point)){
+                int oldEnergy=calculateEnergy(point.x,point.y)+cellsOld[point.x][point.y].getH();
+
+                Color oldColor=cellsOld[point.x][point.y].getState();
+                Color newColor=randomRecrystallState(point);
+
+                cellsOld[point.x][point.y].setState(newColor);
+                int newEnergy=calculateEnergy(point.x,point.y);
+
+
+                //warunek na zmiane
+                if(newEnergy<=oldEnergy && !oldColor.equals(newColor)){
+                    cellsOld[point.x][point.y].setRecrystalized(true);
+                    cellsOld[point.x][point.y].setH(0);
+                    //nie trzeba wrocic do koloru?
+                }
+                else{
+                    cellsOld[point.x][point.y].setState(oldColor);
+                }
+            }
+
+        }
 
 
 
@@ -932,5 +967,54 @@ public class CellularAutomata {
 
 
 
+    }
+
+    private boolean hasRecrystallizedNeighbour(Point point){
+        boolean result=false;
+
+        for(int i=point.x-1;i<=point.x+1;i++){
+            for(int j=point.y-1;j<=point.y+1;j++){
+                if(i!=0 && j!=0 && i!=width-1 && j!=height-1) {
+                    if (cellsOld[i][j].isRecrystalized()) {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    private Color randomRecrystallState(Point point){
+        List<Color> colors=new ArrayList<>();
+        for(int i=point.x-1;i<=point.x+1;i++) {
+            for (int j = point.y - 1; j <= point.y + 1; j++) {
+                    if(!colors.contains(cellsOld[i][j].getState()) && cellsOld[i][j].isRecrystalized())
+                        colors.add(cellsOld[i][j].getState());
+            }
+        }
+        //colors.remove(cellsOld[point.x][point.y].getState());
+        if(colors.size()>0){
+            Collections.shuffle(colors);
+            return colors.get(0);
+        }
+        else
+            return cellsOld[point.x][point.y].getState();
+    }
+    private Color randomRecrystallState2(Point point){
+        List<Color> colors=new ArrayList<>();
+        for(int i=0;i<colorsMc.size();i++) {
+
+                    colors.add(colorsMc.get(i));
+
+        }
+        //colors.remove(cellsOld[point.x][point.y].getState());
+        if(colors.size()>0){
+            Collections.shuffle(colors);
+            return colors.get(0);
+        }
+        else
+            return cellsOld[point.x][point.y].getState();
     }
 }
