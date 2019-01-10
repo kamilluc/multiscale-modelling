@@ -138,6 +138,7 @@ public class Controller implements Initializable {
         graphicsContext.clearRect(0, 0, width, height);
         ca = new CellularAutomata(width, height);
         ca.seedGrains(seeds);
+        henergy=false;
         //todo: all of it should be in separate function and call it from here and after other buttons clicks
         ca.probablity4thRule = Integer.parseInt(probablity4thRule.getText());
         ca.extendedMoore = extendedMethod.isSelected();
@@ -442,8 +443,11 @@ public class Controller implements Initializable {
 
                     if (h == hmin) c = Color.BLUE;
                     else if (h == 0) c = Color.RED;
-                    else c = Color.AQUA;
-
+                    else if(h==hmax) c = Color.AQUA;
+                    else {
+                        c=Color.ORANGE;
+                        //System.out.println(h);
+                    }
 
                     graphicsContext.setFill(c);
                     graphicsContext.fillRect(i, j, 1, 1);

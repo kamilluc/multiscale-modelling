@@ -916,10 +916,10 @@ public class CellularAutomata {
             //increasing
             else{
                 int nucelonsPart=(int)(numberOfNucleons/maxIterations);
-                if(iterationCounter<4){
+//                if(iterationCounter<4){
                     seedRecrysallNucelons(nonRecrystalizedPointsList,nucelonsLocation,(int)(nucelonsPart*(iterationCounter+1)));
 
-                }
+//                }
             }
         }
         //seed end
@@ -948,7 +948,7 @@ public class CellularAutomata {
 
 
                 //warunek na zmiane
-                if(newEnergy<=oldEnergy && !oldColor.equals(newColor)){
+                if(newEnergy<=(oldEnergy) ){
                     cellsOld[point.x][point.y].setRecrystalized(true);
                     cellsOld[point.x][point.y].setH(0);
                     //nie trzeba wrocic do koloru?
